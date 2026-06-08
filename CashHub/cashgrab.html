@@ -236,10 +236,8 @@
             }
 
             .card.disabled {
-                grid-column: 1 / -1;
-                max-width: 280px;
-                margin: 0 auto;
-                width: 100%;
+                grid-column: auto;
+                max-width: none;
             }
         }
 
@@ -247,11 +245,6 @@
             .cards-grid {
                 grid-template-columns: 1fr 1fr 1fr;
                 max-width: 820px;
-            }
-
-            .card.disabled {
-                grid-column: auto;
-                max-width: none;
             }
         }
     </style>
@@ -337,6 +330,15 @@
             </div>
             <div class="card-title">QR Code Generator</div>
             <div class="card-desc">Generate malicious QR codes</div>
+            <span class="badge">Coming Soon</span>
+        </div>
+
+        <div class="card disabled">
+            <div class="card-icon grey">
+                <i class="fas fa-microphone-alt"></i>
+            </div>
+            <div class="card-title">AI Voice Maker</div>
+            <div class="card-desc">Spoof that boss!</div>
             <span class="badge">Coming Soon</span>
         </div>
     </div>
