@@ -17,9 +17,9 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #0a0f0a;
+            background: #f5f5f5;
             min-height: 100vh;
-            color: #ffffff;
+            color: #1a1a1a;
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -27,10 +27,8 @@
 
         /* Header */
         .header {
-            background: rgba(10, 15, 10, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            background: #ffffff;
+            border-bottom: 1px solid #e0e0e0;
             padding: 16px;
             display: flex;
             align-items: center;
@@ -53,6 +51,7 @@
             font-size: 18px;
             font-weight: 700;
             flex: 1;
+            color: #1a1a1a;
         }
 
         .header-icon {
@@ -65,6 +64,7 @@
             flex: 1;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
+            background: #ffffff;
         }
 
         .thread-item {
@@ -72,13 +72,13 @@
             align-items: center;
             gap: 14px;
             padding: 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid #f0f0f0;
             cursor: pointer;
             transition: background 0.2s ease;
         }
 
         .thread-item:active {
-            background: rgba(0, 200, 83, 0.08);
+            background: #f0f0f0;
         }
 
         .thread-avatar {
@@ -93,12 +93,12 @@
             flex-shrink: 0;
         }
 
-        .thread-avatar.green { background: rgba(0, 200, 83, 0.2); color: #00c853; }
-        .thread-avatar.gold { background: rgba(255, 214, 0, 0.2); color: #ffd600; }
-        .thread-avatar.red { background: rgba(255, 68, 68, 0.2); color: #ff6b6b; }
-        .thread-avatar.blue { background: rgba(33, 150, 243, 0.2); color: #2196f3; }
-        .thread-avatar.purple { background: rgba(156, 39, 176, 0.2); color: #9c27b0; }
-        .thread-avatar.orange { background: rgba(255, 152, 0, 0.2); color: #ff9800; }
+        .thread-avatar.green { background: rgba(0, 200, 83, 0.15); color: #00a844; }
+        .thread-avatar.gold { background: rgba(255, 214, 0, 0.2); color: #b8960a; }
+        .thread-avatar.red { background: rgba(255, 68, 68, 0.15); color: #d32f2f; }
+        .thread-avatar.blue { background: rgba(33, 150, 243, 0.15); color: #1976d2; }
+        .thread-avatar.purple { background: rgba(156, 39, 176, 0.15); color: #7b1fa2; }
+        .thread-avatar.orange { background: rgba(255, 152, 0, 0.15); color: #e65100; }
 
         .thread-info {
             flex: 1;
@@ -109,6 +109,7 @@
             font-size: 15px;
             font-weight: 600;
             margin-bottom: 4px;
+            color: #1a1a1a;
         }
 
         .thread-preview {
@@ -126,7 +127,7 @@
 
         .thread-time {
             font-size: 11px;
-            color: #666;
+            color: #999;
             margin-bottom: 6px;
         }
 
@@ -135,7 +136,7 @@
             height: 20px;
             border-radius: 50%;
             background: #00c853;
-            color: #0a0f0a;
+            color: #ffffff;
             font-size: 11px;
             font-weight: 700;
             display: flex;
@@ -153,9 +154,9 @@
             display: inline-block;
         }
 
-        .thread-tag.mule { background: rgba(255, 68, 68, 0.15); color: #ff6b6b; }
-        .thread-tag.recruit { background: rgba(0, 200, 83, 0.15); color: #00c853; }
-        .thread-tag.active { background: rgba(255, 214, 0, 0.15); color: #ffd600; }
+        .thread-tag.mule { background: rgba(255, 68, 68, 0.12); color: #d32f2f; }
+        .thread-tag.recruit { background: rgba(0, 200, 83, 0.12); color: #00a844; }
+        .thread-tag.active { background: rgba(255, 214, 0, 0.2); color: #b8960a; }
 
         /* Message View */
         .message-view {
@@ -164,7 +165,7 @@
             height: 100%;
             position: fixed;
             inset: 0;
-            background: #0a0f0a;
+            background: #f5f5f5;
             z-index: 200;
         }
 
@@ -173,10 +174,8 @@
         }
 
         .msg-header {
-            background: rgba(10, 15, 10, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            background: #ffffff;
+            border-bottom: 1px solid #e0e0e0;
             padding: 14px 16px;
             display: flex;
             align-items: center;
@@ -206,6 +205,7 @@
         .msg-name {
             font-size: 16px;
             font-weight: 600;
+            color: #1a1a1a;
         }
 
         .msg-status {
@@ -247,49 +247,48 @@
 
         .message.received {
             align-self: flex-start;
-            background: rgba(255, 255, 255, 0.08);
-            color: #e0e0e0;
+            background: #ffffff;
+            color: #1a1a1a;
             border-bottom-left-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
         }
 
         .message-time {
             font-size: 10px;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.7);
             margin-top: 6px;
             text-align: right;
         }
 
         .message.received .message-time {
-            color: #666;
+            color: #999;
         }
 
         .message-label {
             font-size: 10px;
             font-weight: 600;
-            color: #00c853;
+            color: rgba(255, 255, 255, 0.8);
             margin-bottom: 4px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         .message.received .message-label {
-            color: #888;
+            color: #00a844;
         }
 
         /* Date divider */
         .date-divider {
             text-align: center;
             font-size: 11px;
-            color: #555;
+            color: #999;
             padding: 8px 0;
         }
 
         /* Footer */
         .footer {
-            background: rgba(10, 15, 10, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            background: #ffffff;
+            border-top: 1px solid #e0e0e0;
             padding: 12px 16px;
             display: flex;
             align-items: center;
@@ -300,9 +299,9 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #ccc;
+            background: #f5f5f5;
+            border: 1px solid #e0e0e0;
+            color: #666;
             padding: 10px 20px;
             border-radius: 24px;
             text-decoration: none;
@@ -313,7 +312,7 @@
         }
 
         .footer-btn:active {
-            background: rgba(255, 255, 255, 0.1);
+            background: #e8e8e8;
         }
 
         .footer-btn i {
@@ -324,7 +323,7 @@
             text-align: center;
             padding: 12px;
             font-size: 10px;
-            color: #444;
+            color: #999;
         }
 
         @media screen and (min-width: 480px) {
