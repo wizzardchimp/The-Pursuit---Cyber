@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Crypto Cash Hub</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💰</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a1628;
+            min-height: 100vh;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0d2137 0%, #152a44 100%);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(0, 200, 83, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .back-btn {
+            background: rgba(255, 214, 0, 0.15);
+            border: 1px solid rgba(255, 214, 0, 0.3);
+            color: #ffd600;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 214, 0, 0.25);
+        }
+
+        .header h1 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #00c853;
+            flex: 1;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .summary-section {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, #0d2137 0%, #1a3a5c 100%);
+            border-radius: 12px;
+            padding: 16px 12px;
+            text-align: center;
+            border: 1px solid rgba(0, 200, 83, 0.15);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .summary-label {
+            font-size: 11px;
+            color: #8899aa;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .summary-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffd600;
+        }
+
+        .summary-card.highlight .summary-value {
+            color: #00c853;
+        }
+
+        .chart-section {
+            background: linear-gradient(135deg, #0d2137 0%, #1a3a5c 100%);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(0, 200, 83, 0.15);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .chart-title {
+            font-size: 14px;
+            color: #8899aa;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+        }
+
+        #investmentChart {
+            width: 100%;
+            height: 100%;
+        }
+
+        .investors-section {
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #00c853;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(0, 200, 83, 0.2);
+        }
+
+        .investor-card {
+            background: linear-gradient(135deg, #0d2137 0%, #1a3a5c 100%);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(0, 200, 83, 0.15);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .investor-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .investor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .investor-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .investor-return {
+            font-size: 14px;
+            font-weight: 700;
+            color: #00c853;
+            background: rgba(0, 200, 83, 0.15);
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .investor-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .detail-label {
+            font-size: 11px;
+            color: #8899aa;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #ffd600;
+        }
+
+        .detail-value.portfolio {
+            color: #00c853;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .footer-btn {
+            background: linear-gradient(135deg, #ffd600 0%, #ffab00 100%);
+            color: #0a1628;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 214, 0, 0.3);
+        }
+
+        .footer-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 214, 0, 0.4);
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @media (max-width: 480px) {
+            .summary-section {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-value {
+                font-size: 28px;
+            }
+
+            .investor-details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="cashgrab.html" class="back-btn">← Back</a>
+        <h1>Crypto Cash Hub</h1>
+    </div>
+
+    <div class="container">
+        <div class="summary-section">
+            <div class="summary-card">
+                <div class="summary-label">This Month's Gross</div>
+                <div class="summary-value">£2,109</div>
+            </div>
+            <div class="summary-card highlight">
+                <div class="summary-label">All-Time Profit</div>
+                <div class="summary-value">£25,376</div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-label">Active Investors</div>
+                <div class="summary-value">47</div>
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <div class="chart-title">Investment Growth (2024)</div>
+            <div class="chart-container">
+                <canvas id="investmentChart"></canvas>
+            </div>
+        </div>
+
+        <div class="investors-section">
+            <div class="section-title">Top Investors</div>
+
+            <div class="investor-card">
+                <div class="investor-header">
+                    <div class="investor-name">James W.</div>
+                    <div class="investor-return">+62.9%</div>
+                </div>
+                <div class="investor-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Invested</span>
+                        <span class="detail-value">£4,200</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Portfolio Value</span>
+                        <span class="detail-value portfolio">£6,840</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="investor-card">
+                <div class="investor-header">
+                    <div class="investor-name">Sarah M.</div>
+                    <div class="investor-return">+47.1%</div>
+                </div>
+                <div class="investor-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Invested</span>
+                        <span class="detail-value">£2,800</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Portfolio Value</span>
+                        <span class="detail-value portfolio">£4,120</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="investor-card">
+                <div class="investor-header">
+                    <div class="investor-name">David K.</div>
+                    <div class="investor-return">+67.1%</div>
+                </div>
+                <div class="investor-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Invested</span>
+                        <span class="detail-value">£8,500</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Portfolio Value</span>
+                        <span class="detail-value portfolio">£14,200</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="investor-card">
+                <div class="investor-header">
+                    <div class="investor-name">Emma L.</div>
+                    <div class="investor-return">+57.5%</div>
+                </div>
+                <div class="investor-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Invested</span>
+                        <span class="detail-value">£1,200</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Portfolio Value</span>
+                        <span class="detail-value portfolio">£1,890</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="investor-card">
+                <div class="investor-header">
+                    <div class="investor-name">Michael R.</div>
+                    <div class="investor-return">+60.9%</div>
+                </div>
+                <div class="investor-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Invested</span>
+                        <span class="detail-value">£6,400</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Portfolio Value</span>
+                        <span class="detail-value portfolio">£10,300</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <a href="cashgrab.html" class="footer-btn">Back to CashGrab Hub</a>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('investmentChart');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            const container = canvas.parentElement;
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = container.offsetWidth * dpr;
+            canvas.height = container.offsetHeight * dpr;
+            canvas.style.width = container.offsetWidth + 'px';
+            canvas.style.height = container.offsetHeight + 'px';
+            ctx.scale(dpr, dpr);
+        }
+
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const data = [
+            { month: 'Jan', value: 2000 },
+            { month: 'Feb', value: 4500 },
+            { month: 'Mar', value: 8000 },
+            { month: 'Apr', value: 13000 },
+            { month: 'May', value: 19000 },
+            { month: 'Jun', value: 25000 }
+        ];
+
+        let animationProgress = 0;
+
+        function drawChart(progress) {
+            const width = canvas.width / (window.devicePixelRatio || 1);
+            const height = canvas.height / (window.devicePixelRatio || 1);
+
+            ctx.clearRect(0, 0, width, height);
+
+            const padding = { top: 20, right: 20, bottom: 30, left: 50 };
+            const chartWidth = width - padding.left - padding.right;
+            const chartHeight = height - padding.top - padding.bottom;
+
+            const maxValue = 25000;
+            const minValue = 0;
+
+            ctx.strokeStyle = 'rgba(100, 120, 140, 0.2)';
+            ctx.lineWidth = 1;
+
+            for (let i = 0; i <= 5; i++) {
+                const y = padding.top + (chartHeight / 5) * i;
+                ctx.beginPath();
+                ctx.moveTo(padding.left, y);
+                ctx.lineTo(width - padding.right, y);
+                ctx.stroke();
+
+                const value = maxValue - (maxValue / 5) * i;
+                ctx.fillStyle = '#667788';
+                ctx.font = '11px -apple-system, sans-serif';
+                ctx.textAlign = 'right';
+                ctx.fillText('£' + (value / 1000).toFixed(0) + 'k', padding.left - 8, y + 4);
+            }
+
+            ctx.fillStyle = '#667788';
+            ctx.font = '11px -apple-system, sans-serif';
+            ctx.textAlign = 'center';
+
+            data.forEach((point, index) => {
+                const x = padding.left + (chartWidth / (data.length - 1)) * index;
+                ctx.fillText(point.month, x, height - 8);
+            });
+
+            const points = data.map((point, index) => ({
+                x: padding.left + (chartWidth / (data.length - 1)) * index,
+                y: padding.top + chartHeight - (point.value / maxValue) * chartHeight
+            }));
+
+            const pointsToDraw = Math.ceil(points.length * progress);
+
+            if (pointsToDraw < 2) return;
+
+            const gradient = ctx.createLinearGradient(0, padding.top, 0, height - padding.bottom);
+            gradient.addColorStop(0, 'rgba(0, 200, 83, 0.4)');
+            gradient.addColorStop(1, 'rgba(0, 200, 83, 0.0)');
+
+            ctx.beginPath();
+            ctx.moveTo(points[0].x, height - padding.bottom);
+            ctx.lineTo(points[0].x, points[0].y);
+
+            for (let i = 1; i < pointsToDraw; i++) {
+                const prev = points[i - 1];
+                const curr = points[i];
+                const cpx1 = prev.x + (curr.x - prev.x) / 3;
+                const cpx2 = curr.x - (curr.x - prev.x) / 3;
+                ctx.bezierCurveTo(cpx1, prev.y, cpx2, curr.y, curr.x, curr.y);
+            }
+
+            const lastVisible = points[pointsToDraw - 1];
+            ctx.lineTo(lastVisible.x, height - padding.bottom);
+            ctx.closePath();
+            ctx.fillStyle = gradient;
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.moveTo(points[0].x, points[0].y);
+
+            for (let i = 1; i < pointsToDraw; i++) {
+                const prev = points[i - 1];
+                const curr = points[i];
+                const cpx1 = prev.x + (curr.x - prev.x) / 3;
+                const cpx2 = curr.x - (curr.x - prev.x) / 3;
+                ctx.bezierCurveTo(cpx1, prev.y, cpx2, curr.y, curr.x, curr.y);
+            }
+
+            ctx.strokeStyle = '#00c853';
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.stroke();
+
+            for (let i = 0; i < pointsToDraw; i++) {
+                ctx.beginPath();
+                ctx.arc(points[i].x, points[i].y, 5, 0, Math.PI * 2);
+                ctx.fillStyle = '#00c853';
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.arc(points[i].x, points[i].y, 3, 0, Math.PI * 2);
+                ctx.fillStyle = '#0a1628';
+                ctx.fill();
+            }
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 11px -apple-system, sans-serif';
+            ctx.textAlign = 'center';
+
+            for (let i = 0; i < pointsToDraw; i++) {
+                const value = data[i].value;
+                ctx.fillText('£' + (value / 1000).toFixed(1) + 'k', points[i].x, points[i].y - 12);
+            }
+        }
+
+        function animate() {
+            if (animationProgress < 1) {
+                animationProgress += 0.02;
+                drawChart(Math.min(animationProgress, 1));
+                requestAnimationFrame(animate);
+            }
+        }
+
+        setTimeout(() => {
+            animate();
+        }, 500);
+    </script>
+</body>
+</html>

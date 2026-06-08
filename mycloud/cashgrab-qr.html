@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator - CashGrab</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔗</text></svg>">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0d0d0d;
+      color: #e0e0e0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    .header {
+      background: #1a1a1a;
+      border-bottom: 2px solid #00c853;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .back-btn {
+      color: #00c853;
+      text-decoration: none;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+
+    .back-btn:hover {
+      color: #ffd600;
+    }
+
+    .header h1 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #ffd600;
+      letter-spacing: 0.5px;
+    }
+
+    /* Main Content */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      gap: 40px;
+    }
+
+    /* Coming Soon Section */
+    .coming-soon {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .qr-icon {
+      font-size: 80px;
+      color: #00c853;
+      opacity: 0.4;
+      text-shadow: 0 0 30px rgba(0, 200, 83, 0.3);
+    }
+
+    .coming-soon h2 {
+      font-size: 28px;
+      color: #ffd600;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .coming-soon .subtitle {
+      font-size: 16px;
+      color: #888;
+      font-weight: 400;
+    }
+
+    .coming-soon .description {
+      font-size: 14px;
+      color: #666;
+      max-width: 320px;
+      line-height: 1.5;
+    }
+
+    /* Form Preview */
+    .form-preview {
+      width: 100%;
+      max-width: 440px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      opacity: 0.35;
+      pointer-events: none;
+      filter: grayscale(40%);
+    }
+
+    .form-preview .input-wrapper {
+      position: relative;
+    }
+
+    .form-preview .input-wrapper i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #555;
+      font-size: 16px;
+    }
+
+    .form-preview input {
+      width: 100%;
+      padding: 14px 14px 14px 42px;
+      background: #1a1a1a;
+      border: 2px solid #333;
+      border-radius: 10px;
+      color: #999;
+      font-size: 15px;
+      outline: none;
+      cursor: not-allowed;
+    }
+
+    .form-preview button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #00c853, #00e676);
+      border: none;
+      border-radius: 10px;
+      color: #0d0d0d;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: not-allowed;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    /* Disabled Badge */
+    .disabled-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 214, 0, 0.1);
+      border: 1px solid rgba(255, 214, 0, 0.25);
+      border-radius: 20px;
+      padding: 8px 18px;
+      font-size: 13px;
+      color: #ffd600;
+      font-weight: 500;
+    }
+
+    .disabled-badge i {
+      font-size: 11px;
+    }
+
+    /* Footer */
+    .footer {
+      background: #1a1a1a;
+      border-top: 1px solid #2a2a2a;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .footer-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      background: transparent;
+      border: 2px solid #00c853;
+      border-radius: 8px;
+      color: #00c853;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .footer-btn:hover {
+      background: #00c853;
+      color: #0d0d0d;
+    }
+
+    /* Pulse animation for the icon */
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 0.55; transform: scale(1.03); }
+    }
+
+    .qr-icon {
+      animation: pulse 3s ease-in-out infinite;
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 480px) {
+      .header h1 {
+        font-size: 15px;
+      }
+
+      .coming-soon h2 {
+        font-size: 22px;
+      }
+
+      .qr-icon {
+        font-size: 64px;
+      }
+
+      .form-preview input,
+      .form-preview button {
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <a href="cashgrab.html" class="back-btn">
+      <i class="fas fa-arrow-left"></i> Back
+    </a>
+    <h1><i class="fas fa-qrcode"></i> QR Code Generator</h1>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main">
+
+    <!-- Coming Soon -->
+    <div class="coming-soon">
+      <i class="fas fa-qrcode qr-icon"></i>
+      <h2>Feature Coming Soon</h2>
+      <p class="subtitle">This module is currently under development</p>
+      <p class="description">Check back later for QR code generation capabilities</p>
+      <div class="disabled-badge">
+        <i class="fas fa-lock"></i>
+        Coming Soon
+      </div>
+    </div>
+
+    <!-- Disabled Form Preview -->
+    <div class="form-preview">
+      <div class="input-wrapper">
+        <i class="fas fa-link"></i>
+        <input type="text" placeholder="Enter URL to generate QR code" disabled>
+      </div>
+      <button disabled>Generate QR Code</button>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <a href="cashgrab.html" class="footer-btn">
+      <i class="fas fa-arrow-left"></i> Back to CashGrab Hub
+    </a>
+  </footer>
+
+</body>
+</html>
