@@ -190,9 +190,17 @@
         }
 
         .card.disabled {
-            opacity: 0.5;
+            opacity: 0.7;
             pointer-events: none;
             cursor: not-allowed;
+        }
+
+        .card.disabled .card-title {
+            color: #ffffff;
+        }
+
+        .card.disabled .card-desc {
+            color: #cccccc;
         }
 
         .footer {
@@ -339,6 +347,15 @@
             </div>
             <div class="card-title">AI Voice Maker</div>
             <div class="card-desc">Spoof that boss!</div>
+            <span class="badge">Coming Soon</span>
+        </div>
+
+        <div class="card disabled">
+            <div class="card-icon grey">
+                <i class="fas fa-coins"></i>
+            </div>
+            <div class="card-title">Gold Trader</div>
+            <div class="card-desc">Wash your earnings into gold soon!</div>
             <span class="badge">Coming Soon</span>
         </div>
     </div>
