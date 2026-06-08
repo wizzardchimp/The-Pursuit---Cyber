@@ -18,6 +18,7 @@
             min-height: 100vh;
             color: #1a1a1a;
             overflow-x: hidden;
+            overflow-y: auto;
         }
 
         .header {
@@ -249,6 +250,161 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        .dump-btn {
+            background: #d32f2f;
+            color: #ffffff;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .dump-btn:hover {
+            background: #b71c1c;
+        }
+
+        .dump-btn:disabled {
+            background: #999;
+            cursor: not-allowed;
+        }
+
+        .dump-btn i {
+            font-size: 11px;
+        }
+
+        .investor-card.dumped {
+            background: rgba(255, 235, 238, 0.7) !important;
+            border: 1px solid rgba(211, 47, 47, 0.4) !important;
+        }
+
+        .investor-card.dumped .investor-name {
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+
+        .dump-status {
+            font-size: 11px;
+            color: #d32f2f;
+            font-weight: 600;
+            margin-top: 8px;
+            padding: 6px 10px;
+            background: rgba(255, 235, 238, 0.6);
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .dump-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .dump-modal-overlay.show {
+            display: flex;
+        }
+
+        .dump-modal {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 28px 24px;
+            max-width: 360px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            animation: modalPop 0.3s ease;
+        }
+
+        @keyframes modalPop {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .dump-modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .dump-modal-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .dump-modal-label {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .dump-modal-value {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .dump-modal-value.red {
+            color: #d32f2f;
+        }
+
+        .dump-modal-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        .dump-modal-confirm {
+            width: 100%;
+            padding: 14px;
+            background: #d32f2f;
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .dump-modal-confirm:hover {
+            background: #b71c1c;
+        }
+
+        .dump-modal-cancel {
+            width: 100%;
+            padding: 14px;
+            background: transparent;
+            color: #888;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .dump-modal-cancel:hover {
+            background: #f5f5f5;
+        }
     </style>
 </head>
 <body>
@@ -268,7 +424,7 @@
                 <div class="summary-value">£25,376</div>
             </div>
             <div class="summary-card">
-                <div class="summary-label">Active Investors</div>
+                <div class="summary-label">Number of Deposits</div>
                 <div class="summary-value">47</div>
             </div>
         </div>
@@ -283,10 +439,11 @@
         <div class="investors-section">
             <div class="section-title">Top Investors</div>
 
-            <div class="investor-card">
+            <div class="investor-card" data-index="0" data-name="James W." data-invested="£4,200" data-deposits="8">
                 <div class="investor-header">
                     <div class="investor-name">James W.</div>
                     <div class="investor-return">+62.9%</div>
+                    <button class="dump-btn" onclick="openDumpModal(0)"><i class="fas fa-trash-alt"></i> Dump</button>
                 </div>
                 <div class="investor-details">
                     <div class="detail-item">
@@ -300,10 +457,11 @@
                 </div>
             </div>
 
-            <div class="investor-card">
+            <div class="investor-card" data-index="1" data-name="Sarah" data-invested="£2,800" data-deposits="5">
                 <div class="investor-header">
-                    <div class="investor-name">Sarah M.</div>
-                    <div class="investor-return">+47.1%</div>
+                    <div class="investor-name">Sarah</div>
+                    <div class="investor-return">+35.0%</div>
+                    <button class="dump-btn" onclick="openDumpModal(1)"><i class="fas fa-trash-alt"></i> Dump</button>
                 </div>
                 <div class="investor-details">
                     <div class="detail-item">
@@ -317,10 +475,11 @@
                 </div>
             </div>
 
-            <div class="investor-card">
+            <div class="investor-card" data-index="2" data-name="David K." data-invested="£8,500" data-deposits="12">
                 <div class="investor-header">
                     <div class="investor-name">David K.</div>
                     <div class="investor-return">+67.1%</div>
+                    <button class="dump-btn" onclick="openDumpModal(2)"><i class="fas fa-trash-alt"></i> Dump</button>
                 </div>
                 <div class="investor-details">
                     <div class="detail-item">
@@ -334,10 +493,11 @@
                 </div>
             </div>
 
-            <div class="investor-card">
+            <div class="investor-card" data-index="3" data-name="Emma L." data-invested="£1,200" data-deposits="3">
                 <div class="investor-header">
                     <div class="investor-name">Emma L.</div>
                     <div class="investor-return">+57.5%</div>
+                    <button class="dump-btn" onclick="openDumpModal(3)"><i class="fas fa-trash-alt"></i> Dump</button>
                 </div>
                 <div class="investor-details">
                     <div class="detail-item">
@@ -351,10 +511,11 @@
                 </div>
             </div>
 
-            <div class="investor-card">
+            <div class="investor-card" data-index="4" data-name="Michael R." data-invested="£6,400" data-deposits="9">
                 <div class="investor-header">
                     <div class="investor-name">Michael R.</div>
                     <div class="investor-return">+60.9%</div>
+                    <button class="dump-btn" onclick="openDumpModal(4)"><i class="fas fa-trash-alt"></i> Dump</button>
                 </div>
                 <div class="investor-details">
                     <div class="detail-item">
@@ -371,6 +532,24 @@
 
         <div class="footer">
             <a href="cashgrab.html" class="footer-btn">Back to CashGrab Hub</a>
+        </div>
+    </div>
+
+    <div class="dump-modal-overlay" id="dumpModal">
+        <div class="dump-modal">
+            <div class="dump-modal-title" id="modalTitle">Dump Investor</div>
+            <div class="dump-modal-row">
+                <span class="dump-modal-label">Cash Deposited</span>
+                <span class="dump-modal-value" id="modalInvested">£0</span>
+            </div>
+            <div class="dump-modal-row">
+                <span class="dump-modal-label">Number of Deposits</span>
+                <span class="dump-modal-value" id="modalDeposits">0</span>
+            </div>
+            <div class="dump-modal-actions">
+                <button class="dump-modal-confirm" id="modalConfirmBtn" onclick="confirmDump()">Dump to Account</button>
+                <button class="dump-modal-cancel" onclick="closeDumpModal()">Cancel</button>
+            </div>
         </div>
     </div>
 
@@ -522,6 +701,52 @@
         setTimeout(() => {
             animate();
         }, 500);
+
+        let currentDumpIndex = null;
+
+        function openDumpModal(index) {
+            const card = document.querySelectorAll('.investor-card')[index];
+            if (card.classList.contains('dumped')) return;
+
+            currentDumpIndex = index;
+            const name = card.getAttribute('data-name');
+            const invested = card.getAttribute('data-invested');
+            const deposits = card.getAttribute('data-deposits');
+
+            document.getElementById('modalTitle').textContent = 'Dump ' + name;
+            document.getElementById('modalInvested').textContent = invested;
+            document.getElementById('modalDeposits').textContent = deposits;
+            document.getElementById('dumpModal').classList.add('show');
+        }
+
+        function closeDumpModal() {
+            document.getElementById('dumpModal').classList.remove('show');
+            currentDumpIndex = null;
+        }
+
+        function confirmDump() {
+            if (currentDumpIndex === null) return;
+
+            const cards = document.querySelectorAll('.investor-card');
+            const card = cards[currentDumpIndex];
+
+            card.classList.add('dumped');
+
+            const btn = card.querySelector('.dump-btn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-ban"></i> Dumped';
+
+            const statusDiv = document.createElement('div');
+            statusDiv.className = 'dump-status';
+            statusDiv.textContent = 'Transferring to your crypto account';
+            card.appendChild(statusDiv);
+
+            closeDumpModal();
+        }
+
+        document.getElementById('dumpModal').addEventListener('click', function(e) {
+            if (e.target === this) closeDumpModal();
+        });
     </script>
 </body>
 </html>
