@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <title>CashGrab Hub - Account Recovery</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0f0a;
+            min-height: 100vh;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(0, 200, 83, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 214, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(0, 200, 83, 0.08) 0%, transparent 70%),
+                linear-gradient(135deg, #0a0f0a 0%, #0d1a0d 50%, #0a0f0a 100%);
+            animation: drift 25s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(20px, -15px) scale(1.02); }
+            66% { transform: translate(-15px, 10px) scale(0.98); }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00c853, #ffd600);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 22px;
+            color: #0a0f0a;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 200, 83, 0.3);
+        }
+
+        .title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #ffffff;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 28px;
+            text-align: center;
+        }
+
+        .form-card {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 28px 24px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group:last-of-type {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 15px;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .form-input:focus {
+            border-color: rgba(0, 200, 83, 0.5);
+            box-shadow: 0 0 0 3px rgba(0, 200, 83, 0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #00c853, #00a844);
+            border: none;
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+            background: linear-gradient(135deg, #00a844, #008c3a);
+        }
+
+        .error-msg {
+            background: rgba(255, 68, 68, 0.15);
+            border: 1px solid rgba(255, 68, 68, 0.4);
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 20px;
+            display: none;
+            animation: shake 0.4s ease;
+        }
+
+        .error-msg.show {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .error-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(255, 68, 68, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 14px;
+        }
+
+        .error-text {
+            font-size: 13px;
+            color: #ff6b6b;
+            font-weight: 500;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-6px); }
+            80% { transform: translateX(6px); }
+        }
+
+        .back-btn {
+            width: 100%;
+            margin-top: 16px;
+            padding: 14px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:active {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+        }
+
+        .warning-text {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.3);
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        /* Error overlay */
+        .error-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .error-overlay.show {
+            display: flex;
+        }
+
+        .error-box {
+            background: #1a1a1a;
+            border: 1px solid rgba(255, 68, 68, 0.4);
+            border-radius: 16px;
+            padding: 32px 24px;
+            max-width: 340px;
+            width: 100%;
+            text-align: center;
+            animation: popIn 0.3s ease;
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .error-box-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: rgba(255, 68, 68, 0.15);
+            border: 1px solid rgba(255, 68, 68, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 28px;
+        }
+
+        .error-box-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #ff6b6b;
+            margin-bottom: 8px;
+        }
+
+        .error-box-msg {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
+        .error-box-btn {
+            width: 100%;
+            padding: 14px;
+            background: rgba(255, 68, 68, 0.15);
+            border: 1px solid rgba(255, 68, 68, 0.4);
+            border-radius: 10px;
+            color: #ff6b6b;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .error-box-btn:active {
+            background: rgba(255, 68, 68, 0.25);
+        }
+
+        @media screen and (max-width: 360px) {
+            .form-card {
+                padding: 24px 18px;
+            }
+            .title {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">CG</div>
+        <h1 class="title">Account Recovery</h1>
+        <p class="subtitle">Answer your security questions to regain access</p>
+
+        <div class="form-card">
+            <div class="error-msg" id="errorMsg">
+                <div class="error-icon">!</div>
+                <div class="error-text">All fields are required</div>
+            </div>
+
+            <form id="recoveryForm">
+                <div class="form-group">
+                    <label class="form-label">1. Registered Phone Number</label>
+                    <input type="tel" class="form-input" id="phone" placeholder="e.g. 07700 900123">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">2. Last 4 Digits of Crypto E-Wallet</label>
+                    <input type="text" class="form-input" id="wallet" placeholder="e.g. 4A7F" maxlength="4">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">3. Registered Email Address</label>
+                    <input type="email" class="form-input" id="email" placeholder="e.g. user@example.com">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">4. Secret Phrase</label>
+                    <input type="text" class="form-input" id="phrase" placeholder="Enter your secret phrase">
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Recovery Request</button>
+            </form>
+
+            <button class="back-btn" onclick="window.location.href='cashgrab-login.html'">
+                Back to Login
+            </button>
+        </div>
+
+        <p class="warning-text">Account recovery is monitored for suspicious activity</p>
+    </div>
+
+    <!-- Error Overlay -->
+    <div class="error-overlay" id="errorOverlay">
+        <div class="error-box">
+            <div class="error-box-icon">✕</div>
+            <div class="error-box-title">Incorrect Details Entered</div>
+            <div class="error-box-msg">The information you provided does not match our records. Please try again.</div>
+            <button class="error-box-btn" onclick="returnToLogin()">Return to Login</button>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('recoveryForm');
+        const errorOverlay = document.getElementById('errorOverlay');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const phone = document.getElementById('phone').value.trim();
+            const wallet = document.getElementById('wallet').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phrase = document.getElementById('phrase').value.trim();
+
+            // Check if any field is empty
+            if (!phone || !wallet || !email || !phrase) {
+                const errorMsg = document.getElementById('errorMsg');
+                errorMsg.classList.add('show');
+                setTimeout(() => errorMsg.classList.remove('show'), 3000);
+                return;
+            }
+
+            // Always show error - this is a fake recovery page
+            errorOverlay.classList.add('show');
+        });
+
+        function returnToLogin() {
+            errorOverlay.classList.remove('show');
+            window.location.href = 'cashgrab-login.html';
+        }
+    </script>
+</body>
+</html>
