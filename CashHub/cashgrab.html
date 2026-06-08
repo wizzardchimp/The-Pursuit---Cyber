@@ -15,16 +15,12 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #0a0a0f;
-            color: #e0e0e0;
+            background-color: #f5f5f5;
+            color: #1a1a1a;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
-            background-image:
-                linear-gradient(rgba(0, 200, 83, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 200, 83, 0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
         }
 
         .header {
@@ -46,23 +42,20 @@
             justify-content: center;
             font-weight: 900;
             font-size: 16px;
-            color: #0a0a0f;
+            color: #ffffff;
             flex-shrink: 0;
-            box-shadow: 0 0 20px rgba(0, 200, 83, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 200, 83, 0.3);
         }
 
         .header h1 {
             font-size: 1.8rem;
             font-weight: 800;
-            background: linear-gradient(90deg, #00c853, #ffd600);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #1a1a1a;
         }
 
         .subtitle {
             text-align: center;
-            color: #888;
+            color: #666;
             font-size: 0.85rem;
             margin-top: -16px;
             margin-bottom: 24px;
@@ -79,14 +72,12 @@
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
             border-radius: 16px;
             padding: 28px 20px;
             text-decoration: none;
-            color: #e0e0e0;
+            color: #1a1a1a;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -118,28 +109,29 @@
 
         .card-icon.green {
             background: rgba(0, 200, 83, 0.15);
-            color: #00c853;
+            color: #00a844;
         }
 
         .card-icon.gold {
-            background: rgba(255, 214, 0, 0.15);
-            color: #ffd600;
+            background: rgba(255, 214, 0, 0.2);
+            color: #b8960a;
         }
 
         .card-icon.grey {
-            background: rgba(255, 255, 255, 0.06);
-            color: #555;
+            background: #f0f0f0;
+            color: #888;
         }
 
         .card-title {
             font-size: 1.05rem;
             font-weight: 700;
             text-align: center;
+            color: #1a1a1a;
         }
 
         .card-desc {
             font-size: 0.8rem;
-            color: #888;
+            color: #666;
             text-align: center;
             line-height: 1.4;
         }
@@ -149,7 +141,7 @@
             gap: 16px;
             margin-top: 4px;
             padding-top: 12px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            border-top: 1px solid #f0f0f0;
             width: 100%;
             justify-content: center;
         }
@@ -161,26 +153,26 @@
         .card-stat-value {
             font-size: 1.1rem;
             font-weight: 700;
-            color: #00c853;
+            color: #00a844;
         }
 
         .card-stat-label {
             font-size: 0.65rem;
-            color: #666;
+            color: #888;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         .card-stat-value.gold {
-            color: #ffd600;
+            color: #b8960a;
         }
 
         .badge {
             position: absolute;
             top: 12px;
             right: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            color: #aaa;
+            background: #f0f0f0;
+            color: #666;
             font-size: 0.6rem;
             font-weight: 700;
             letter-spacing: 1.5px;
@@ -196,11 +188,11 @@
         }
 
         .card.disabled .card-title {
-            color: #ffffff;
+            color: #1a1a1a;
         }
 
         .card.disabled .card-desc {
-            color: #cccccc;
+            color: #666;
         }
 
         .footer {
@@ -212,9 +204,9 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #ccc;
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            color: #333;
             padding: 10px 22px;
             border-radius: 24px;
             text-decoration: none;
@@ -224,14 +216,14 @@
         }
 
         .back-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
+            background: #f0f0f0;
+            color: #000;
         }
 
         .copyright {
             margin-top: 16px;
             font-size: 0.7rem;
-            color: #444;
+            color: #999;
             letter-spacing: 0.5px;
         }
 

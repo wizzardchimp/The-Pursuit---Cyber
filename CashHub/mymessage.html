@@ -65,6 +65,8 @@
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
             background: #ffffff;
+            height: 0;
+            min-height: 0;
         }
 
         .thread-item {
@@ -222,6 +224,8 @@
             flex-direction: column;
             gap: 12px;
             -webkit-overflow-scrolling: touch;
+            height: 0;
+            min-height: 0;
         }
 
         .message {
@@ -331,6 +335,43 @@
                 max-width: 480px;
                 margin: 0 auto;
                 width: 100%;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .message {
+                font-size: 16px;
+                max-width: 90%;
+            }
+
+            .message-label {
+                font-size: 11px;
+            }
+
+            .message-time {
+                font-size: 11px;
+            }
+
+            .thread-name {
+                font-size: 16px;
+            }
+
+            .thread-preview {
+                font-size: 14px;
+            }
+
+            .messages-container {
+                padding: 12px;
+                gap: 10px;
+            }
+
+            .msg-name {
+                font-size: 17px;
+            }
+
+            .footer-btn {
+                font-size: 14px;
+                padding: 12px 24px;
             }
         }
     </style>
