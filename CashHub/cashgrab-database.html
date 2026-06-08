@@ -257,7 +257,7 @@
             }
 
             .header h1 {
-                font-size: 1.1rem;
+                font-size: 1.3rem;
             }
 
             .summary-bar {
@@ -266,7 +266,11 @@
             }
 
             .summary-value {
-                font-size: 1.1rem;
+                font-size: 1.3rem;
+            }
+
+            .summary-label {
+                font-size: 0.8rem;
             }
 
             .table-container {
@@ -294,28 +298,29 @@
                 border-radius: 8px;
                 border: 1px solid #e0e0e0;
                 padding: 1rem;
-                gap: 0.5rem;
+                gap: 0.6rem;
             }
 
             .data-table td {
-                padding: 0.2rem 0;
+                padding: 0.3rem 0;
                 border-bottom: none;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+                font-size: 1rem;
             }
 
             .data-table td::before {
                 content: attr(data-label);
-                font-size: 0.7rem;
+                font-size: 0.8rem;
                 text-transform: uppercase;
                 letter-spacing: 0.1em;
                 color: #888;
-                font-weight: 400;
+                font-weight: 600;
             }
 
             .data-table td:first-child {
-                font-size: 1rem;
+                font-size: 1.1rem;
                 font-weight: 700;
                 color: #1a1a1a;
                 border-bottom: 1px solid #e0e0e0;
@@ -325,6 +330,29 @@
 
             .data-table td:first-child::before {
                 content: "";
+            }
+
+            .price {
+                font-size: 1.1rem;
+            }
+
+            .telegram {
+                font-size: 0.9rem;
+            }
+
+            .badge {
+                font-size: 0.75rem;
+                padding: 0.25rem 0.6rem;
+            }
+
+            .warning-banner {
+                font-size: 0.9rem;
+                padding: 1rem;
+            }
+
+            .filter-btn {
+                font-size: 0.9rem;
+                padding: 0.5rem 1.2rem;
             }
 
             .data-table td:last-child {
@@ -379,7 +407,7 @@
                 <tr>
                     <th>#</th>
                     <th>Type</th>
-                    <th>Description</th>
+                    <th>Desc</th>
                     <th>Price</th>
                     <th>Status</th>
                     <th>Seller</th>
@@ -389,7 +417,7 @@
                 <tr data-type="email">
                     <td data-label="#">1</td>
                     <td data-label="Type"><span class="badge badge-email">Email</span></td>
-                    <td data-label="Description">Gmail - john.smith@***.com + password</td>
+                    <td data-label="Desc">Gmail - john.smith@***.com + password</td>
                     <td data-label="Price" class="price">£12</td>
                     <td data-label="Status">Available</td>
                     <td data-label="Seller" class="telegram">@datahawk_uk</td>
@@ -397,7 +425,7 @@
                 <tr data-type="email">
                     <td data-label="#">2</td>
                     <td data-label="Type"><span class="badge badge-email">Email</span></td>
-                    <td data-label="Description">Outlook - sarah.wilson@***.co.uk + password</td>
+                    <td data-label="Desc">Outlook - sarah.wilson@***.co.uk + password</td>
                     <td data-label="Price" class="price">£10</td>
                     <td data-label="Status">Available</td>
                     <td data-label="Seller" class="telegram">@vaultcrack</td>
@@ -405,7 +433,7 @@
                 <tr data-type="utility">
                     <td data-label="#">3</td>
                     <td data-label="Type"><span class="badge badge-utility">Utility</span></td>
-                    <td data-label="Description">British Gas - Full account access</td>
+                    <td data-label="Desc">British Gas - Full account access</td>
                     <td data-label="Price" class="price">£25</td>
                     <td data-label="Status">Available</td>
                     <td data-label="Seller" class="telegram">@billrunner</td>
@@ -413,7 +441,7 @@
                 <tr data-type="bank">
                     <td data-label="#">4</td>
                     <td data-label="Type"><span class="badge badge-bank">Bank</span></td>
-                    <td data-label="Description">Barclays - Current account + sort code</td>
+                    <td data-label="Desc">Barclays - Current account + sort code</td>
                     <td data-label="Price" class="price">£45</td>
                     <td data-label="Status">Available</td>
                     <td data-label="Seller" class="telegram">@cashflow_drops</td>
@@ -421,7 +449,7 @@
                 <tr data-type="email">
                     <td data-label="#">5</td>
                     <td data-label="Type"><span class="badge badge-email">Email</span></td>
-                    <td data-label="Description">Yahoo - mike.brown@***.com + recovery</td>
+                    <td data-label="Desc">Yahoo - mike.brown@***.com + recovery</td>
                     <td data-label="Price" class="price">£8</td>
                     <td data-label="Status">Available</td>
                     <td data-label="Seller" class="telegram">@datahawk_uk</td>
@@ -429,7 +457,7 @@
                 <tr data-type="full">
                     <td data-label="#">6</td>
                     <td data-label="Type"><span class="badge badge-full">Full Set</span></td>
-                    <td data-label="Description">Email + Utility + Bank + Card - J. Thompson</td>
+                    <td data-label="Desc">Email + Utility + Bank + Card - J. Thompson</td>
                     <td data-label="Price" class="price">£350</td>
                     <td data-label="Status">Available</td>
                     <td data-label="Seller" class="telegram">@fullpackage_uk</td>
@@ -437,7 +465,7 @@
                 <tr data-type="card">
                     <td data-label="#">7</td>
                     <td data-label="Type"><span class="badge badge-card">Cards</span></td>
-                    <td data-label="Description">Visa debit - 4532****8921 + CVV + expiry</td>
+                    <td data-label="Desc">Visa debit - 4532****8921 + CVV + expiry</td>
                     <td data-label="Price" class="price">£35</td>
                     <td data-label="Status">Available</td>
                     <td data-label="Seller" class="telegram">@cardvault_eu</td>
@@ -445,7 +473,7 @@
                 <tr data-type="utility">
                     <td data-label="#">8</td>
                     <td data-label="Type"><span class="badge badge-utility">Utility</span></td>
-                    <td data-label="Description">EE Mobile - Full account + PIN</td>
+                    <td data-label="Desc">EE Mobile - Full account + PIN</td>
                     <td data-label="Price" class="price">£18</td>
                     <td data-label="Status">Available</td>
                     <td data-label="Seller" class="telegram">@billrunner</td>
@@ -453,7 +481,7 @@
                 <tr data-type="bank">
                     <td data-label="#">9</td>
                     <td data-label="Type"><span class="badge badge-bank">Bank</span></td>
-                    <td data-label="Description">HSBC - Business account + online access</td>
+                    <td data-label="Desc">HSBC - Business account + online access</td>
                     <td data-label="Price" class="price">£75</td>
                     <td data-label="Status">Sold</td>
                     <td data-label="Seller" class="telegram">@banklogsuk</td>
@@ -461,7 +489,7 @@
                 <tr data-type="email">
                     <td data-label="#">10</td>
                     <td data-label="Type"><span class="badge badge-email">Email</span></td>
-                    <td data-label="Description">Hotmail - emma.davis@***.com + contacts</td>
+                    <td data-label="Desc">Hotmail - emma.davis@***.com + contacts</td>
                     <td data-label="Price" class="price">£10</td>
                     <td data-label="Status">Available</td>
                     <td data-label="Seller" class="telegram">@vaultcrack</td>
@@ -469,7 +497,7 @@
                 <tr data-type="full">
                     <td data-label="#">11</td>
                     <td data-label="Type"><span class="badge badge-full">Full Set</span></td>
-                    <td data-label="Description">Complete identity - D. Williams (28, London)</td>
+                    <td data-label="Desc">Complete identity - D. Williams (28, London)</td>
                     <td data-label="Price" class="price">£480</td>
                     <td data-label="Status">Available</td>
                     <td data-label="Seller" class="telegram">@fullpackage_uk</td>
@@ -477,7 +505,7 @@
                 <tr data-type="utility">
                     <td data-label="#">12</td>
                     <td data-label="Type"><span class="badge badge-utility">Utility</span></td>
-                    <td data-label="Description">Council Tax - Westminster Council login</td>
+                    <td data-label="Desc">Council Tax - Westminster Council login</td>
                     <td data-label="Price" class="price">£22</td>
                     <td data-label="Status">Sold</td>
                     <td data-label="Seller" class="telegram">@billrunner</td>
@@ -485,7 +513,7 @@
                 <tr data-type="card">
                     <td data-label="#">13</td>
                     <td data-label="Type"><span class="badge badge-card">Cards</span></td>
-                    <td data-label="Description">Mastercard - 5412****3847 + full details</td>
+                    <td data-label="Desc">Mastercard - 5412****3847 + full details</td>
                     <td data-label="Price" class="price">£40</td>
                     <td data-label="Status">Available</td>
                     <td data-label="Seller" class="telegram">@cardvault_eu</td>
@@ -493,7 +521,7 @@
                 <tr data-type="bank">
                     <td data-label="#">14</td>
                     <td data-label="Type"><span class="badge badge-bank">Bank</span></td>
-                    <td data-label="Description">Lloyds - Personal account + card details</td>
+                    <td data-label="Desc">Lloyds - Personal account + card details</td>
                     <td data-label="Price" class="price">£55</td>
                     <td data-label="Status">Available</td>
                     <td data-label="Seller" class="telegram">@cashflow_drops</td>
@@ -501,7 +529,7 @@
                 <tr data-type="email">
                     <td data-label="#">15</td>
                     <td data-label="Type"><span class="badge badge-email">Email</span></td>
-                    <td data-label="Description">Gmail - corporate account tech@***.co.uk</td>
+                    <td data-label="Desc">Gmail - corporate account tech@***.co.uk</td>
                     <td data-label="Price" class="price">£20</td>
                     <td data-label="Status">Available</td>
                     <td data-label="Seller" class="telegram">@datahawk_uk</td>
@@ -509,7 +537,7 @@
                 <tr data-type="full">
                     <td data-label="#">16</td>
                     <td data-label="Type"><span class="badge badge-full">Full Set</span></td>
-                    <td data-label="Description">Full profile - R. Patel (34, Birmingham)</td>
+                    <td data-label="Desc">Full profile - R. Patel (34, Birmingham)</td>
                     <td data-label="Price" class="price">£420</td>
                     <td data-label="Status">Available</td>
                     <td data-label="Seller" class="telegram">@fullpackage_uk</td>
@@ -517,7 +545,7 @@
                 <tr data-type="utility">
                     <td data-label="#">17</td>
                     <td data-label="Type"><span class="badge badge-utility">Utility</span></td>
-                    <td data-label="Description">Sky Broadband - Account + router access</td>
+                    <td data-label="Desc">Sky Broadband - Account + router access</td>
                     <td data-label="Price" class="price">£28</td>
                     <td data-label="Status">Available</td>
                     <td data-label="Seller" class="telegram">@billrunner</td>
@@ -525,7 +553,7 @@
                 <tr data-type="bank">
                     <td data-label="#">18</td>
                     <td data-label="Type"><span class="badge badge-bank">Bank</span></td>
-                    <td data-label="Description">NatWest - Savings account + security answers</td>
+                    <td data-label="Desc">NatWest - Savings account + security answers</td>
                     <td data-label="Price" class="price">£85</td>
                     <td data-label="Status">Sold</td>
                     <td data-label="Seller" class="telegram">@banklogsuk</td>
@@ -533,7 +561,7 @@
                 <tr data-type="email">
                     <td data-label="#">19</td>
                     <td data-label="Type"><span class="badge badge-email">Email</span></td>
-                    <td data-label="Description">ProtonMail - encrypted account access</td>
+                    <td data-label="Desc">ProtonMail - encrypted account access</td>
                     <td data-label="Price" class="price">£15</td>
                     <td data-label="Status">Available</td>
                     <td data-label="Seller" class="telegram">@vaultcrack</td>
@@ -541,7 +569,7 @@
                 <tr data-type="card">
                     <td data-label="#">20</td>
                     <td data-label="Type"><span class="badge badge-card">Cards</span></td>
-                    <td data-label="Description">Amex Gold - 3782****9184 + full billing</td>
+                    <td data-label="Desc">Amex Gold - 3782****9184 + full billing</td>
                     <td data-label="Price" class="price">£65</td>
                     <td data-label="Status">Available</td>
                     <td data-label="Seller" class="telegram">@cardvault_eu</td>
@@ -549,7 +577,7 @@
                 <tr data-type="full">
                     <td data-label="#">21</td>
                     <td data-label="Type"><span class="badge badge-full">Full Set</span></td>
-                    <td data-label="Description">Complete set - A. Khan (41, Manchester)</td>
+                    <td data-label="Desc">Complete set - A. Khan (41, Manchester)</td>
                     <td data-label="Price" class="price">£500</td>
                     <td data-label="Status">Available</td>
                     <td data-label="Seller" class="telegram">@fullpackage_uk</td>
@@ -557,7 +585,7 @@
                 <tr data-type="utility">
                     <td data-label="#">22</td>
                     <td data-label="Type"><span class="badge badge-utility">Utility</span></td>
-                    <td data-label="Description">Water UK - Thames Water account access</td>
+                    <td data-label="Desc">Water UK - Thames Water account access</td>
                     <td data-label="Price" class="price">£20</td>
                     <td data-label="Status">Available</td>
                     <td data-label="Seller" class="telegram">@billrunner</td>
@@ -565,7 +593,7 @@
                 <tr data-type="bank">
                     <td data-label="#">23</td>
                     <td data-label="Type"><span class="badge badge-bank">Bank</span></td>
-                    <td data-label="Description">Monzo - Full app access + card</td>
+                    <td data-label="Desc">Monzo - Full app access + card</td>
                     <td data-label="Price" class="price">£60</td>
                     <td data-label="Status">Available</td>
                     <td data-label="Seller" class="telegram">@cashflow_drops</td>
@@ -573,7 +601,7 @@
                 <tr data-type="email">
                     <td data-label="#">24</td>
                     <td data-label="Type"><span class="badge badge-email">Email</span></td>
-                    <td data-label="Description">Outlook - Business account ceo@***.com</td>
+                    <td data-label="Desc">Outlook - Business account ceo@***.com</td>
                     <td data-label="Price" class="price">£18</td>
                     <td data-label="Status">Sold</td>
                     <td data-label="Seller" class="telegram">@datahawk_uk</td>
@@ -581,7 +609,7 @@
                 <tr data-type="full">
                     <td data-label="#">25</td>
                     <td data-label="Type"><span class="badge badge-full">Full Set</span></td>
-                    <td data-label="Description">Premium bundle - T. Wilson (52, Leeds)</td>
+                    <td data-label="Desc">Premium bundle - T. Wilson (52, Leeds)</td>
                     <td data-label="Price" class="price">£450</td>
                     <td data-label="Status">Available</td>
                     <td data-label="Seller" class="telegram">@fullpackage_uk</td>
@@ -589,7 +617,7 @@
                 <tr data-type="card">
                     <td data-label="#">26</td>
                     <td data-label="Type"><span class="badge badge-card">Cards</span></td>
-                    <td data-label="Description">Visa platinum - 4916****2109 + CVV + billing</td>
+                    <td data-label="Desc">Visa platinum - 4916****2109 + CVV + billing</td>
                     <td data-label="Price" class="price">£50</td>
                     <td data-label="Status">Available</td>
                     <td data-label="Seller" class="telegram">@cardvault_eu</td>
@@ -597,7 +625,7 @@
                 <tr data-type="utility">
                     <td data-label="#">27</td>
                     <td data-label="Type"><span class="badge badge-utility">Utility</span></td>
-                    <td data-label="Description">BT Internet - Email + broadband login</td>
+                    <td data-label="Desc">BT Internet - Email + broadband login</td>
                     <td data-label="Price" class="price">£15</td>
                     <td data-label="Status">Sold</td>
                     <td data-label="Seller" class="telegram">@billrunner</td>
@@ -605,7 +633,7 @@
                 <tr data-type="bank">
                     <td data-label="#">28</td>
                     <td data-label="Type"><span class="badge badge-bank">Bank</span></td>
-                    <td data-label="Description">Santander - Current + credit card access</td>
+                    <td data-label="Desc">Santander - Current + credit card access</td>
                     <td data-label="Price" class="price">£95</td>
                     <td data-label="Status">Available</td>
                     <td data-label="Seller" class="telegram">@banklogsuk</td>
@@ -613,7 +641,7 @@
                 <tr data-type="email">
                     <td data-label="#">29</td>
                     <td data-label="Type"><span class="badge badge-email">Email</span></td>
-                    <td data-label="Description">AOL - Legacy account + address book</td>
+                    <td data-label="Desc">AOL - Legacy account + address book</td>
                     <td data-label="Price" class="price">£5</td>
                     <td data-label="Status">Available</td>
                     <td data-label="Seller" class="telegram">@vaultcrack</td>
@@ -621,7 +649,7 @@
                 <tr data-type="full">
                     <td data-label="#">30</td>
                     <td data-label="Type"><span class="badge badge-full">Full Set</span></td>
-                    <td data-label="Description">Enterprise pack - Multiple identities (5x)</td>
+                    <td data-label="Desc">Enterprise pack - Multiple identities (5x)</td>
                     <td data-label="Price" class="price">£2,200</td>
                     <td data-label="Status">Sold</td>
                     <td data-label="Seller" class="telegram">@fullpackage_uk</td>
