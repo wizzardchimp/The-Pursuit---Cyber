@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <title>myMessage - CashGrab Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0f0a;
+            min-height: 100vh;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(10, 15, 10, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 100;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: #00c853;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 700;
+            flex: 1;
+        }
+
+        .header-icon {
+            color: #888;
+            font-size: 18px;
+        }
+
+        /* Thread List */
+        .thread-list {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .thread-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .thread-item:active {
+            background: rgba(0, 200, 83, 0.08);
+        }
+
+        .thread-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .thread-avatar.green { background: rgba(0, 200, 83, 0.2); color: #00c853; }
+        .thread-avatar.gold { background: rgba(255, 214, 0, 0.2); color: #ffd600; }
+        .thread-avatar.red { background: rgba(255, 68, 68, 0.2); color: #ff6b6b; }
+        .thread-avatar.blue { background: rgba(33, 150, 243, 0.2); color: #2196f3; }
+        .thread-avatar.purple { background: rgba(156, 39, 176, 0.2); color: #9c27b0; }
+        .thread-avatar.orange { background: rgba(255, 152, 0, 0.2); color: #ff9800; }
+
+        .thread-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .thread-name {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .thread-preview {
+            font-size: 13px;
+            color: #888;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .thread-meta {
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .thread-time {
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 6px;
+        }
+
+        .thread-badge {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #00c853;
+            color: #0a0f0a;
+            font-size: 11px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: auto;
+        }
+
+        .thread-tag {
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-top: 4px;
+            display: inline-block;
+        }
+
+        .thread-tag.mule { background: rgba(255, 68, 68, 0.15); color: #ff6b6b; }
+        .thread-tag.recruit { background: rgba(0, 200, 83, 0.15); color: #00c853; }
+        .thread-tag.active { background: rgba(255, 214, 0, 0.15); color: #ffd600; }
+
+        /* Message View */
+        .message-view {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+            position: fixed;
+            inset: 0;
+            background: #0a0f0a;
+            z-index: 200;
+        }
+
+        .message-view.active {
+            display: flex;
+        }
+
+        .msg-header {
+            background: rgba(10, 15, 10, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .msg-back {
+            background: none;
+            border: none;
+            color: #00c853;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .msg-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .msg-name {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .msg-status {
+            font-size: 11px;
+            color: #00c853;
+        }
+
+        /* Messages */
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .message {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 14px;
+            line-height: 1.5;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.sent {
+            align-self: flex-end;
+            background: linear-gradient(135deg, #00c853, #00a844);
+            color: #ffffff;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.received {
+            align-self: flex-start;
+            background: rgba(255, 255, 255, 0.08);
+            color: #e0e0e0;
+            border-bottom-left-radius: 4px;
+        }
+
+        .message-time {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 6px;
+            text-align: right;
+        }
+
+        .message.received .message-time {
+            color: #666;
+        }
+
+        .message-label {
+            font-size: 10px;
+            font-weight: 600;
+            color: #00c853;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .message.received .message-label {
+            color: #888;
+        }
+
+        /* Date divider */
+        .date-divider {
+            text-align: center;
+            font-size: 11px;
+            color: #555;
+            padding: 8px 0;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(10, 15, 10, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .footer-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ccc;
+            padding: 10px 20px;
+            border-radius: 24px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .footer-btn:active {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-btn i {
+            font-size: 14px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding: 12px;
+            font-size: 10px;
+            color: #444;
+        }
+
+        @media screen and (min-width: 480px) {
+            .thread-list {
+                max-width: 480px;
+                margin: 0 auto;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Thread List View -->
+    <div class="header">
+        <button class="back-btn" onclick="window.location.href='cashgrab.html'">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <div class="header-title">myMessage</div>
+        <div class="header-icon"><i class="fas fa-ellipsis-v"></i></div>
+    </div>
+
+    <div class="thread-list" id="threadList">
+        <!-- Thread 1: Stephen - Mule -->
+        <div class="thread-item" onclick="openThread(0)">
+            <div class="thread-avatar green">SM</div>
+            <div class="thread-info">
+                <div class="thread-name">Stephen - Mule</div>
+                <div class="thread-preview">that's just sign up a bonus! You can keep that...</div>
+                <span class="thread-tag mule">Mule</span>
+            </div>
+            <div class="thread-meta">
+                <div class="thread-time">2:34 PM</div>
+                <div class="thread-badge">2</div>
+            </div>
+        </div>
+
+        <!-- Thread 2: Sarah - Target -->
+        <div class="thread-item" onclick="openThread(1)">
+            <div class="thread-avatar gold">ST</div>
+            <div class="thread-info">
+                <div class="thread-name">Sarah - Target</div>
+                <div class="thread-preview">Sounds interesting! How do I sign up?</div>
+                <span class="thread-tag recruit">Target</span>
+            </div>
+            <div class="thread-meta">
+                <div class="thread-time">1:12 PM</div>
+            </div>
+        </div>
+
+        <!-- Thread 3: David - Mule -->
+        <div class="thread-item" onclick="openThread(2)">
+            <div class="thread-avatar blue">DM</div>
+            <div class="thread-info">
+                <div class="thread-name">David - Mule</div>
+                <div class="thread-preview">I've transferred the £450 as requested</div>
+                <span class="thread-tag mule">Mule</span>
+            </div>
+            <div class="thread-meta">
+                <div class="thread-time">11:45 AM</div>
+                <div class="thread-badge">1</div>
+            </div>
+        </div>
+
+        <!-- Thread 4: Emma - Active -->
+        <div class="thread-item" onclick="openThread(3)">
+            <div class="thread-avatar purple">EA</div>
+            <div class="thread-info">
+                <div class="thread-name">Emma - Active</div>
+                <div class="thread-preview">When will my training session start?</div>
+                <span class="thread-tag active">Active</span>
+            </div>
+            <div class="thread-meta">
+                <div class="thread-time">Yesterday</div>
+            </div>
+        </div>
+
+        <!-- Thread 5: James - Mule -->
+        <div class="thread-item" onclick="openThread(4)">
+            <div class="thread-avatar red">JM</div>
+            <div class="thread-info">
+                <div class="thread-name">James - Mule</div>
+                <div class="thread-preview">Can I get my bonus early?</div>
+                <span class="thread-tag mule">Mule</span>
+            </div>
+            <div class="thread-meta">
+                <div class="thread-time">Yesterday</div>
+            </div>
+        </div>
+
+        <!-- Thread 6: Lisa - New -->
+        <div class="thread-item" onclick="openThread(5)">
+            <div class="thread-avatar orange">LN</div>
+            <div class="thread-info">
+                <div class="thread-name">Lisa - New</div>
+                <div class="thread-preview">Hi, I saw your advert on LinkedIn</div>
+                <span class="thread-tag recruit">New Lead</span>
+            </div>
+            <div class="thread-meta">
+                <div class="thread-time">Mon</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message Thread View -->
+    <div class="message-view" id="messageView">
+        <div class="msg-header">
+            <button class="msg-back" onclick="closeThread()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="msg-avatar green" id="msgAvatar">SM</div>
+            <div>
+                <div class="msg-name" id="msgName">Stephen - Mule</div>
+                <div class="msg-status">Online</div>
+            </div>
+        </div>
+
+        <div class="messages-container" id="messagesContainer">
+            <!-- Messages will be loaded here -->
+        </div>
+
+        <div class="footer">
+            <button class="footer-btn" onclick="closeThread()">
+                <i class="fas fa-arrow-left"></i>
+                Back to Threads
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Thread data
+        const threads = [
+            {
+                name: 'Stephen - Mule',
+                avatar: 'SM',
+                avatarColor: 'green',
+                messages: [
+                    { type: 'received', label: 'Nora - Woodard Recruitment', text: 'Hi there this is Nora from the Woodard recruitment team. We\'ve come across your profile on LinkedIn and we\'re offering you the opportunity to make between £150 - £300 a day. We provide full training at no cost + 15 to 20 days of paid holiday a year along with standard holidays. We have two openings available if you\'re interested, but they are running out soon. Contact me for more details. Please note that you have to be over 18 years of age to apply.', time: '2:15 PM' },
+                    { type: 'sent', label: 'Stephen', text: 'hi, I definitely want the job. What do I need to do?', time: '2:22 PM' },
+                    { type: 'received', label: 'Nora - Woodard Recruitment', text: 'To enable me to start your application process I need your sort code, bank account details and registered name on the account. You\'ll receive £500 in the next 24 hours for your training budget. In order to process your training package you would need to return £450 to the details we will provide in due course.', time: '2:28 PM' },
+                    { type: 'sent', label: 'Stephen', text: 'what do I do about the 50 quid left in my bank?', time: '2:31 PM' },
+                    { type: 'received', label: 'Nora - Woodard Recruitment', text: 'That\'s just a sign up bonus! You can keep that and once you complete your training, we can enroll you on payroll.', time: '2:34 PM' }
+                ]
+            },
+            {
+                name: 'Sarah - Target',
+                avatar: 'ST',
+                avatarColor: 'gold',
+                messages: [
+                    { type: 'received', label: 'Sarah', text: 'Hi, I saw your job posting on LinkedIn. Is this still available?', time: '12:45 PM' },
+                    { type: 'sent', label: 'Recruitment Team', text: 'Hi Sarah! Yes, we still have positions open. Are you currently employed?', time: '12:50 PM' },
+                    { type: 'received', label: 'Sarah', text: 'Yes but I\'m looking for something better paying. What exactly would I be doing?', time: '12:55 PM' },
+                    { type: 'sent', label: 'Recruitment Team', text: 'It\'s a financial administrator role. You\'ll be processing payments and managing transactions. Full training provided. Salary £45,000 + bonuses.', time: '1:02 PM' },
+                    { type: 'received', label: 'Sarah', text: 'Sounds interesting! How do I sign up?', time: '1:12 PM' }
+                ]
+            },
+            {
+                name: 'David - Mule',
+                avatar: 'DM',
+                avatarColor: 'blue',
+                messages: [
+                    { type: 'sent', label: 'Recruitment Team', text: 'Hi David, your training package has been approved. Please transfer £450 to the following account: Sort: 20-45-67, Account: 73846291', time: '10:30 AM' },
+                    { type: 'received', label: 'David', text: 'Ok I\'ll do it now', time: '10:45 AM' },
+                    { type: 'received', label: 'David', text: 'I\'ve transferred the £450 as requested', time: '11:45 AM' },
+                    { type: 'sent', label: 'Recruitment Team', text: 'Thank you David. We\'ll process this within 24 hours and send you your training materials.', time: '11:50 AM' }
+                ]
+            },
+            {
+                name: 'Emma - Active',
+                avatar: 'EA',
+                avatarColor: 'purple',
+                messages: [
+                    { type: 'received', label: 'Emma', text: 'Hi, I completed the first training module. What\'s next?', time: 'Yesterday' },
+                    { type: 'sent', label: 'Recruitment Team', text: 'Great work Emma! You\'ll receive your first assignment tomorrow. You\'ll need to process a test payment of £200.', time: 'Yesterday' },
+                    { type: 'received', label: 'Emma', text: 'When will my training session start?', time: 'Yesterday' }
+                ]
+            },
+            {
+                name: 'James - Mule',
+                avatar: 'JM',
+                avatarColor: 'red',
+                messages: [
+                    { type: 'received', label: 'James', text: 'Hey, I need the money sooner. Can I get my bonus early?', time: 'Yesterday' },
+                    { type: 'sent', label: 'Recruitment Team', text: 'James, bonuses are processed after training completion. Please be patient.', time: 'Yesterday' },
+                    { type: 'received', label: 'James', text: 'But I really need it now. Can you make an exception?', time: 'Yesterday' }
+                ]
+            },
+            {
+                name: 'Lisa - New',
+                avatar: 'LN',
+                avatarColor: 'orange',
+                messages: [
+                    { type: 'received', label: 'Lisa', text: 'Hi, I saw your advert on LinkedIn. Is this legitimate?', time: 'Mon' },
+                    { type: 'sent', label: 'Recruitment Team', text: 'Hi Lisa! Yes, we\'re a registered recruitment agency. We\'re currently hiring for financial administrator positions.', time: 'Mon' },
+                    { type: 'received', label: 'Lisa', text: 'What qualifications do I need?', time: 'Mon' }
+                ]
+            }
+        ];
+
+        let currentThread = null;
+
+        function openThread(index) {
+            currentThread = index;
+            const thread = threads[index];
+
+            // Update header
+            document.getElementById('msgAvatar').textContent = thread.avatar;
+            document.getElementById('msgAvatar').className = 'msg-avatar ' + thread.avatarColor;
+            document.getElementById('msgName').textContent = thread.name;
+
+            // Load messages
+            const container = document.getElementById('messagesContainer');
+            container.innerHTML = '';
+
+            // Add date divider
+            const divider = document.createElement('div');
+            divider.className = 'date-divider';
+            divider.textContent = 'Today';
+            container.appendChild(divider);
+
+            thread.messages.forEach((msg, i) => {
+                const msgEl = document.createElement('div');
+                msgEl.className = 'message ' + msg.type;
+                msgEl.style.animationDelay = (i * 0.1) + 's';
+                msgEl.innerHTML = `
+                    <div class="message-label">${msg.label}</div>
+                    <div>${msg.text}</div>
+                    <div class="message-time">${msg.time}</div>
+                `;
+                container.appendChild(msgEl);
+            });
+
+            // Show message view
+            document.getElementById('messageView').classList.add('active');
+
+            // Scroll to bottom
+            setTimeout(() => {
+                container.scrollTop = container.scrollHeight;
+            }, 100);
+        }
+
+        function closeThread() {
+            document.getElementById('messageView').classList.remove('active');
+            currentThread = null;
+        }
+    </script>
+
+</body>
+</html>
