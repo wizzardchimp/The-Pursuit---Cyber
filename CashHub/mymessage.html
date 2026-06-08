@@ -426,6 +426,19 @@
                 <div class="thread-time">Mon</div>
             </div>
         </div>
+
+        <!-- Thread 7: Anonymous - Watch Buyer -->
+        <div class="thread-item" onclick="openThread(6)">
+            <div class="thread-avatar purple">AN</div>
+            <div class="thread-info">
+                <div class="thread-name">Anonymous</div>
+                <div class="thread-preview">Is the watch still for sale? Cash preferred</div>
+                <span class="thread-tag mule">Scam</span>
+            </div>
+            <div class="thread-meta">
+                <div class="thread-time">Sun</div>
+            </div>
+        </div>
     </div>
 
     <!-- Message Thread View -->
@@ -518,6 +531,18 @@
                     { type: 'received', label: 'Lisa', text: 'Hi, I saw your advert on LinkedIn. Is this legitimate?', time: 'Mon' },
                     { type: 'sent', label: 'Recruitment Team', text: 'Hi Lisa! Yes, we\'re a registered recruitment agency. We\'re currently hiring for financial administrator positions.', time: 'Mon' },
                     { type: 'received', label: 'Lisa', text: 'What qualifications do I need?', time: 'Mon' }
+                ]
+            },
+            {
+                name: 'Anonymous',
+                avatar: 'AN',
+                avatarColor: 'purple',
+                messages: [
+                    { type: 'received', label: 'Anonymous', text: 'Hi, is the watch still for sale?', time: 'Sun' },
+                    { type: 'sent', label: 'You', text: 'Yes it is. Are you interested?', time: 'Sun' },
+                    { type: 'received', label: 'Anonymous', text: 'Yeah definitely. Do you have any others available? I\'m looking for a couple actually', time: 'Sun' },
+                    { type: 'sent', label: 'You', text: 'I might be able to get hold of another one. What\'s your budget?', time: 'Sun' },
+                    { type: 'received', label: 'Anonymous', text: 'Cash is preferred if that works for you? I can meet up whenever', time: 'Sun' }
                 ]
             }
         ];
