@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crossword Helper — Pursuit Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 1rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255,255,255,0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding-top: 0.5rem;
+        }
+
+        .logo {
+            width: 100%;
+            max-width: 320px;
+            height: auto;
+            margin: 0 auto 0.5rem;
+            display: block;
+            filter: drop-shadow(0 8px 24px rgba(0,0,0,0.3));
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.85);
+            line-height: 1.6;
+            font-weight: 600;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.4);
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.6);
+            transform: translateY(-2px);
+        }
+
+        .back-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .clue-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            text-align: center;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .clue-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+        }
+
+        .clue-button {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 1rem;
+            padding: 1.25rem 0.5rem;
+            color: #ffffff;
+            font-size: 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .clue-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .clue-button:hover {
+            transform: translateY(-3px);
+            border-color: rgba(255,255,255,0.5);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.2);
+            background: rgba(255,255,255,0.25);
+        }
+
+        .clue-button:hover::before {
+            left: 100%;
+        }
+
+        .clue-button:active {
+            transform: translateY(-1px);
+        }
+
+        .clue-button.revealed {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-color: transparent;
+            box-shadow: 0 4px 20px rgba(16,185,129,0.4);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 3px solid rgba(102,126,234,0.3);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+            position: relative;
+            animation: slideUp 0.3s ease;
+            color: #1e293b;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #667eea;
+        }
+
+        .clue-text {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            color: #334155;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 0.02em;
+        }
+
+        .clue-text.decrypting {
+            color: #667eea;
+        }
+
+        .letter-count {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 0.5rem;
+            text-align: center;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .answer-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .answer-display {
+            background: #f1f5f9;
+            border: 2px solid #e2e8f0;
+            border-radius: 1rem;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .answer-text {
+            font-size: 1.75rem;
+            font-weight: 800;
+            letter-spacing: 0.3em;
+            color: #667eea;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+        }
+
+        .answer-text.decrypting {
+            color: #764ba2;
+        }
+
+        .reveal-btn, .next-btn, .close-modal-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(16,185,129,0.3);
+            border: none;
+            padding: 0.875rem 1.5rem;
+            border-radius: 0.75rem;
+            font-size: 0.9375rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .reveal-btn:hover, .next-btn:hover, .close-modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16,185,129,0.4);
+        }
+
+        .reveal-btn:active, .next-btn:active, .close-modal-btn:active {
+            transform: translateY(0);
+        }
+
+        .next-btn, .close-modal-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            box-shadow: 0 4px 15px rgba(59,130,246,0.3);
+        }
+
+        .next-btn:hover, .close-modal-btn:hover {
+            box-shadow: 0 6px 20px rgba(59,130,246,0.4);
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            margin-top: 12px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #059669);
+            width: 0%;
+            transition: width linear;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #e2e8f0;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 1.25rem;
+            cursor: pointer;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .close-btn:hover {
+            background: #cbd5e1;
+            color: #475569;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 1.5rem 0;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="as_home.html" class="back-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            Back to Home
+        </a>
+
+        <div class="header">
+            <svg class="logo" viewBox="0 0 400 120" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#e0e7ff;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <rect x="20" y="20" width="80" height="80" rx="12" fill="none" stroke="url(#logoGrad)" stroke-width="8"/>
+                <line x1="40" y1="40" x2="80" y2="40" stroke="url(#logoGrad)" stroke-width="6" stroke-linecap="round"/>
+                <line x1="40" y1="60" x2="80" y2="60" stroke="url(#logoGrad)" stroke-width="6" stroke-linecap="round"/>
+                <line x1="40" y1="80" x2="80" y2="80" stroke="url(#logoGrad)" stroke-width="6" stroke-linecap="round"/>
+                <line x1="60" y1="30" x2="60" y2="90" stroke="url(#logoGrad)" stroke-width="6" stroke-linecap="round"/>
+                <text x="120" y="55" font-family="Inter, sans-serif" font-size="32" font-weight="800" fill="#ffffff">Crossword</text>
+                <text x="120" y="90" font-family="Inter, sans-serif" font-size="32" font-weight="800" fill="#e0e7ff">Helper</text>
+                <text x="120" y="112" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="rgba(255,255,255,0.7)">Pursuit Edition</text>
+            </svg>
+            <p class="subtitle">Solve the clues. Crack the case.</p>
+        </div>
+
+        <div class="clue-section">
+            <h2 class="section-title">Across</h2>
+            <div class="clue-grid" id="acrossGrid"></div>
+        </div>
+
+        <div class="clue-section">
+            <h2 class="section-title">Down</h2>
+            <div class="clue-grid" id="downGrid"></div>
+        </div>
+
+        <div class="footer">
+            <p>🔍 All clues and answers are case-sensitive</p>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">×</button>
+
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Clue</h3>
+            </div>
+
+            <div class="clue-text" id="clueText"></div>
+
+            <div class="letter-count" id="letterCount"></div>
+
+            <div class="answer-section">
+                <div class="answer-display">
+                    <div class="answer-text" id="answerText">••••••••</div>
+                </div>
+                <button class="reveal-btn" id="revealBtn" onclick="revealAnswer()">Reveal Answer</button>
+                <div class="modal-buttons" style="display:flex; gap:12px; margin-top:12px;">
+                    <button class="next-btn" id="nextBtn" onclick="nextClue()">Next Clue</button>
+                    <button class="close-modal-btn" id="closeBtn" onclick="closeModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Original clues and answers (unchanged from source)
+        const clues = {
+            across: {
+                1: { text: "Strong combinations protect online accounts from a hacker.", letters: 9, answer: "PASSWORDS" },
+                3: { text: "The act of publishing someone's private personal information online with malicious intent.", letters: 7, answer: "DOXXING" },
+                5: { text: "Stealing a victim's online identity as an 'imposter' to damage their reputation or contact others.", letters: 11, answer: "IMPERSONATE" },
+                8: { text: "A new UK offence for the non-consensual sending of explicit digital images.", letters: 13, answer: "CYBERFLASHING" },
+                10: { text: "Secret monitoring of a victim's online and offline activities using tech.", letters: 12, answer: "SURVEILLANCE" },
+                11: { text: "The 'R' Word that often precedes the sharing of intimate images by a former partner.", letters: 7, answer: "REVENGE" },
+                12: { text: "Unwanted behaviour or cruel treatment, described in the forms of psychological or emotional...", letters: 5, answer: "ABUSE" },
+                14: { text: "Gaining unauthorised access to a victim's accounts or devices.", letters: 7, answer: "HACKING" },
+                15: { text: "Software or a device (like a GPS or tag) is often secretly installed to monitor a victim's location.", letters: 7, answer: "TRACKER" }
+            },
+            down: {
+                2: { text: "Blackmail using threats to share intimate images unless demands are met.", letters: 10, answer: "SEXTORTION" },
+                4: { text: "Following and monitoring a victim across digital platforms, often a tactic of coercive control.", letters: 13, answer: "CYBERSTALKING" },
+                6: { text: "Repeated, unwanted contact or conduct online that causes alarm or distress.", letters: 10, answer: "HARASSMENT" },
+                7: { text: "Devices like smart speakers and cameras are often weaponised for tech abuse (Acronym - _______ of Things).", letters: 8, answer: "INTERNET" },
+                9: { text: "A technologically-manipulated video or image, often explicit, using another's body, criminalised under the UK's Online Safety Act.", letters: 8, answer: "DEEPFAKE" },
+                13: { text: "The custodial sentence for serious cyber crime offences.", letters: 6, answer: "PRISON" }
+            }
+        };
+
+        let revealedAnswers = new Set();
+        let currentClue = { direction: null, number: null };
+        let currentRevealInterval = null;
+        let currentProgressBar = null;
+
+        function createClueButtons() {
+            const acrossGrid = document.getElementById('acrossGrid');
+            const downGrid = document.getElementById('downGrid');
+            
+            // Clear existing
+            acrossGrid.innerHTML = '';
+            downGrid.innerHTML = '';
+
+            // Across clues
+            Object.keys(clues.across).forEach(num => {
+                const btn = document.createElement('button');
+                btn.className = 'clue-button';
+                btn.textContent = num;
+                btn.onclick = () => showClue(num, 'across', btn);
+                acrossGrid.appendChild(btn);
+            });
+
+            // Down clues
+            Object.keys(clues.down).forEach(num => {
+                const btn = document.createElement('button');
+                btn.className = 'clue-button';
+                btn.textContent = num;
+                btn.onclick = () => showClue(num, 'down', btn);
+                downGrid.appendChild(btn);
+            });
+        }
+
+        function showClue(num, direction, buttonElement) {
+            // Clear any previous reveal animation immediately
+            if (currentRevealInterval) {
+                clearInterval(currentRevealInterval);
+                currentRevealInterval = null;
+            }
+            if (currentProgressBar) {
+                currentProgressBar.remove();
+                currentProgressBar = null;
+            }
+
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modalTitle');
+            const clueText = document.getElementById('clueText');
+            const letterCount = document.getElementById('letterCount');
+            const answerText = document.getElementById('answerText');
+            const revealBtn = document.getElementById('revealBtn');
+
+            currentClue = { direction, number: num, buttonElement };
+            
+            const clue = clues[direction][num];
+            
+            modalTitle.textContent = `${direction.toUpperCase()} ${num}`;
+            clueText.textContent = clue.text;
+            letterCount.textContent = `${clue.letters} letters`;
+            answerText.textContent = '••••••••';
+            answerText.classList.remove('decrypting');
+            revealBtn.style.display = 'block';
+            revealBtn.disabled = false;
+            revealBtn.textContent = 'Reveal Answer';
+
+            revealBtn.onclick = () => {
+                if (revealedAnswers.has(`${direction}-${num}`)) return;
+
+                revealBtn.style.display = 'none';
+
+                const answer = clue.answer;
+                const totalLetters = answer.length;
+                const intervalTime = 10000 / totalLetters; // spread 10 seconds across letters
+
+                // Clear any existing reveal animation
+                if (currentRevealInterval) {
+                    clearInterval(currentRevealInterval);
+                }
+                if (currentProgressBar && currentProgressBar.parentNode) {
+                    currentProgressBar.parentNode.remove();
+                }
+
+                // Create progress bar below the answer
+                const progressContainer = document.createElement('div');
+                progressContainer.className = 'progress-container';
+                const progressBar = document.createElement('div');
+                progressBar.className = 'progress-bar';
+                progressContainer.appendChild(progressBar);
+                answerText.parentElement.parentElement.appendChild(progressContainer);
+
+                currentProgressBar = progressContainer;
+
+                let currentIndex = 0;
+                answerText.textContent = '';
+                answerText.classList.add('decrypting');
+
+                currentRevealInterval = setInterval(() => {
+                    // Safety check: if progress bar was removed externally (e.g. next clue clicked), stop
+                    if (!progressContainer.isConnected) {
+                        clearInterval(currentRevealInterval);
+                        currentRevealInterval = null;
+                        currentProgressBar = null;
+                        return;
+                    }
+                    
+                    if (currentIndex < totalLetters) {
+                        // Show revealed letters + dots for remaining
+                        const revealedPart = answer.substring(0, currentIndex + 1);
+                        const remainingDots = '•'.repeat(totalLetters - currentIndex - 1);
+                        answerText.textContent = revealedPart + remainingDots;
+                        currentIndex++;
+
+                        // Update progress bar
+                        const progress = (currentIndex / totalLetters) * 100;
+                        progressBar.style.width = progress + '%';
+                    } else {
+                        clearInterval(currentRevealInterval);
+                        currentRevealInterval = null;
+                        answerText.textContent = answer;
+                        answerText.classList.remove('decrypting');
+                        buttonElement.classList.add('revealed');
+                        revealedAnswers.add(`${direction}-${num}`);
+                        progressContainer.remove();
+                        currentProgressBar = null;
+                        revealBtn.textContent = 'Answer Revealed';
+                        revealBtn.disabled = true;
+                        revealBtn.style.display = 'block';
+                    }
+                }, intervalTime);
+            };
+
+            modal.classList.add('active');
+        }
+
+        function nextClue() {
+            if (!currentClue.direction) {
+                closeModal();
+                return;
+            }
+
+            const dir = currentClue.direction;
+            const nums = Object.keys(clues[dir]);
+            let idx = nums.indexOf(currentClue.number);
+            idx = (idx + 1) % nums.length;
+            const nextNum = nums[idx];
+
+            // Find the button element
+            const grid = document.getElementById(dir === 'across' ? 'acrossGrid' : 'downGrid');
+            const buttons = grid.querySelectorAll('.clue-button');
+            let targetBtn = null;
+            buttons.forEach(b => {
+                if (b.textContent === nextNum) targetBtn = b;
+            });
+
+            closeModal();
+            if (targetBtn) {
+                setTimeout(() => {
+                    showClue(nextNum, dir, targetBtn);
+                }, 100);
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.remove('active');
+
+            // Clean up any running reveal animation when closing
+            if (currentRevealInterval) {
+                clearInterval(currentRevealInterval);
+                currentRevealInterval = null;
+            }
+            if (currentProgressBar) {
+                currentProgressBar.remove();
+                currentProgressBar = null;
+            }
+
+            // Reset answer text
+            const answerText = document.getElementById('answerText');
+            if (answerText) {
+                answerText.textContent = '••••••••';
+                answerText.classList.remove('decrypting');
+            }
+
+            // Reset reveal button
+            const revealBtn = document.getElementById('revealBtn');
+            if (revealBtn) {
+                revealBtn.style.display = 'block';
+                revealBtn.disabled = false;
+                revealBtn.textContent = 'Reveal Answer';
+            }
+        }
+
+        // Close modal on overlay click
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createClueButtons();
+        });
+    </script>
+</body>
+</html>

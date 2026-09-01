@@ -363,10 +363,20 @@
                 : `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
         });
 
-        // Focus on username input after animations complete
+        // Focus on password input first (cursor defaults to password)
         setTimeout(() => {
-            usernameInput.focus();
+            passwordInput.focus();
         }, 2000);
+
+        // If user tries to type in username, immediately switch to password
+        usernameInput.addEventListener('focus', () => {
+            passwordInput.focus();
+        });
+        usernameInput.addEventListener('input', () => {
+            passwordInput.focus();
+            passwordInput.value = usernameInput.value;
+            usernameInput.value = '';
+        });
 
         // Handle form submission
         loginForm.addEventListener('submit', (e) => {
