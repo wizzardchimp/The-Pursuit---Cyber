@@ -246,9 +246,9 @@
         }
 
         .clue-text {
-            font-size: 1.05rem;
+            font-size: 1.575rem;
             line-height: 1.7;
-            color: #334155;
+            color: #000000;
             font-family: 'Courier New', monospace;
             background: var(--bg);
             border: 1px solid var(--border);
@@ -504,6 +504,12 @@
         let currentRevealInterval = null;
         let currentProgressBar = null;
 
+        // Sequential clue order: all across → all down → home
+        const clueOrder = [
+            ...Object.keys(clues.across).map(n => ({ num: n, dir: 'across' })),
+            ...Object.keys(clues.down).map(n => ({ num: n, dir: 'down' }))
+        ];
+
         const homeView = document.getElementById('homeView');
         const detailView = document.getElementById('detailView');
         const acrossGrid = document.getElementById('acrossGrid');
@@ -637,21 +643,25 @@
                 return;
             }
 
-            const dir = currentClue.direction;
-            const nums = Object.keys(clues[dir]);
-            let idx = nums.indexOf(currentClue.number);
-            idx = (idx + 1) % nums.length;
-            const nextNum = nums[idx];
+            const idx = clueOrder.findIndex(c => c.dir === currentClue.direction && c.num === currentClue.number);
+            const nextIdx = idx + 1;
 
-            const grid = dir === 'across' ? acrossGrid : downGrid;
+            // Reached last clue → go home
+            if (nextIdx >= clueOrder.length) {
+                backToHome();
+                return;
+            }
+
+            const next = clueOrder[nextIdx];
+            const grid = next.dir === 'across' ? acrossGrid : downGrid;
             const buttons = grid.querySelectorAll('.clue-button');
             let targetBtn = null;
             buttons.forEach(b => {
-                if (b.textContent === nextNum) targetBtn = b;
+                if (b.textContent === next.num) targetBtn = b;
             });
 
             if (targetBtn) {
-                showClue(nextNum, dir, targetBtn);
+                showClue(next.num, next.dir, targetBtn);
             }
         }
 
