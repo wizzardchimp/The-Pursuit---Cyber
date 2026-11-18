@@ -552,10 +552,10 @@
                 clearInterval(currentRevealInterval);
                 currentRevealInterval = null;
             }
-            if (currentProgressBar && currentProgressBar.parentNode) {
-                currentProgressBar.parentNode.remove();
+            if (currentProgressBar) {
+                currentProgressBar.remove();
+                currentProgressBar = null;
             }
-            currentProgressBar = null;
         }
 
         function showClue(num, direction, buttonElement) {
@@ -571,16 +571,25 @@
             clueText.classList.remove('decrypting');
             letterChip.textContent = `${clue.letters} letters`;
 
-            answerText.textContent = '•'.repeat(clue.answer.length);
-            answerText.classList.remove('decrypting', 'done');
-            answerDisplay.classList.remove('revealed');
+            answerText.classList.remove('decrypting');
+            answerDisplay.classList.toggle('revealed', isRevealed);
+
+            if (isRevealed) {
+                // Keep the answer visible when returning to a clue already solved
+                answerText.textContent = clue.answer;
+                answerText.classList.add('done');
+                revealBtn.textContent = 'Reveal Again';
+            } else {
+                answerText.textContent = '•'.repeat(clue.answer.length);
+                answerText.classList.remove('done');
+                revealBtn.textContent = 'Reveal Answer';
+            }
 
             revealBtn.style.display = 'block';
             revealBtn.disabled = false;
-            revealBtn.textContent = isRevealed ? 'Revealed' : 'Reveal Answer';
 
+            // Always wire the button up so every clue can be revealed (and replayed)
             revealBtn.onclick = () => {
-                if (revealedAnswers.has(`${direction}-${num}`)) return;
                 revealAnswer(clue, buttonElement, direction, num);
             };
 
@@ -588,11 +597,21 @@
         }
 
         function revealAnswer(clue, buttonElement, direction, num) {
+            // End any reveal still in flight before starting a fresh one
+            stopReveal();
+
             revealBtn.style.display = 'none';
+            revealBtn.disabled = true;
 
             const answer = clue.answer;
             const totalLetters = answer.length;
             const intervalTime = 10000 / totalLetters;
+
+            // Reset the answer display so replays start from scratch
+            answerDisplay.classList.remove('revealed');
+            answerText.textContent = '•'.repeat(totalLetters);
+            answerText.classList.add('decrypting');
+            answerText.classList.remove('done');
 
             // Progress bar in the answer display
             const progressContainer = document.createElement('div');
@@ -604,12 +623,14 @@
             currentProgressBar = progressContainer;
 
             let currentIndex = 0;
-            answerText.textContent = '';
-            answerText.classList.add('decrypting');
 
             currentRevealInterval = setInterval(() => {
+                // If the view was torn down, stop cleanly instead of leaving the button stuck
                 if (!progressContainer.isConnected) {
                     stopReveal();
+                    revealBtn.style.display = 'block';
+                    revealBtn.disabled = false;
+                    revealBtn.textContent = 'Reveal Answer';
                     return;
                 }
 
@@ -630,8 +651,8 @@
                     currentProgressBar = null;
                     if (buttonElement) buttonElement.classList.add('revealed');
                     revealedAnswers.add(`${direction}-${num}`);
-                    revealBtn.textContent = 'Revealed';
-                    revealBtn.disabled = true;
+                    revealBtn.textContent = 'Reveal Again';
+                    revealBtn.disabled = false;
                     revealBtn.style.display = 'block';
                 }
             }, intervalTime);
