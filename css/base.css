@@ -1,5 +1,5 @@
 /* Shared base for every Pursuit page. */
-:root { --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+:root { --font-ui: 'Exo 2', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif; }
 
 /* touch-action: manipulation keeps taps instant (no 300ms double-tap-zoom delay)
    while still letting players pinch-zoom. */

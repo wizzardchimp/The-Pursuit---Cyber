@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="/fonts/fonts.css">
-    <link rel="stylesheet" href="/css/base.css">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preload" href="/fonts/exo-2-300.woff2?v=20261118c" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/fonts/fonts.css?v=20261118c">
+    <link rel="stylesheet" href="/css/base.css?v=20261118c">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261118c">
     <title>myMail — AutoStore</title>
     <style>
         *{margin:0;padding:0;box-sizing:border-box;}
@@ -252,10 +252,10 @@
             #decision{max-width:520px;left:50%;right:auto;width:100%;transform:translateX(-50%);}
         }
 
-        /* ── original assessment type: Rajdhani for UI chrome, Exo 2 for body; emails keep the phone's native font ── */
-        html.native-ui{--font:'Rajdhani','Exo 2',-apple-system,sans-serif;}
+        /* ── original assessment type: Exo 2 for UI chrome, Exo 2 for body; emails keep the phone's native font ── */
+        html.native-ui{--font:'Exo 2',-apple-system,sans-serif;}
         html.native-ui body{font-family:'Exo 2',-apple-system,sans-serif !important;}
-        html.native-ui .ttl,html.native-ui .start-btn,html.native-ui .restart-btn,html.native-ui .cont-btn,html.native-ui .abtn,html.native-ui .counter,html.native-ui .ft-label,html.native-ui .pin-lbl,html.native-ui .p-timer-lbl,html.native-ui .result-ttl,html.native-ui .result-sub,html.native-ui .welcome-sub,html.native-ui .back-btn,html.native-ui .fb-ttl,html.native-ui .ft-secs,html.native-ui .p-timer,html.native-ui .pin-val{font-family:'Rajdhani',-apple-system,sans-serif !important;letter-spacing:.08em !important;}
+        html.native-ui .ttl,html.native-ui .start-btn,html.native-ui .restart-btn,html.native-ui .cont-btn,html.native-ui .abtn,html.native-ui .counter,html.native-ui .ft-label,html.native-ui .pin-lbl,html.native-ui .p-timer-lbl,html.native-ui .result-ttl,html.native-ui .result-sub,html.native-ui .welcome-sub,html.native-ui .back-btn,html.native-ui .fb-ttl,html.native-ui .ft-secs,html.native-ui .p-timer,html.native-ui .pin-val{font-family:'Exo 2',-apple-system,sans-serif !important;letter-spacing:.08em !important;}
         html.native-ui .msg,html.native-ui .timeout-msg,html.native-ui .pin-note,html.native-ui .flag-list li,html.native-ui .btn-note{font-family:'Exo 2',-apple-system,sans-serif !important;}
 
         /* ── "Handled 0 of 6": flat bar fixed to the very top; timer fixed just under it ── */
@@ -274,7 +274,7 @@
         .result-ttl,.penalty-ttl{font-size:30px !important;}
         .flag-list li{font-size:17px !important;}
     </style>
-    <link rel="stylesheet" href="/css/autostore-theme.css">
+    <link rel="stylesheet" href="/css/autostore-theme.css?v=20261118c">
 </head>
 <body>
 
@@ -809,6 +809,6 @@ $('restartBtn').addEventListener('click',startAssessment);
 quiz = drawQuiz(); showInbox();
 
 </script>
-    <script src="/js/hints.js" defer></script>
+    <script src="/js/hints.js?v=20261118c" defer></script>
 </body>
 </html>

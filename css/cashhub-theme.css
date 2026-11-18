@@ -1,4 +1,4 @@
 /* CashGrab sub-pages: same type as the redesigned hub so the app feels like one product. */
-:root{ --font:'Inter',-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; }
+:root{ --font:'Exo 2',-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; }
 body{ font-family:var(--font) !important; -webkit-font-smoothing:antialiased; }
 input,button,select,textarea{ font-family:var(--font) !important; }
