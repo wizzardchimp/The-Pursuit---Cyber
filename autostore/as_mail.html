@@ -264,6 +264,15 @@
         body{padding-top:calc(env(safe-area-inset-top) + 42px) !important;}
         body.in-msg{padding-top:calc(env(safe-area-inset-top) + 104px) !important;}
         @media (min-width:700px){ .float-timer{left:50%;right:auto;width:496px !important;transform:translateX(-50%);} }
+
+        /* ── big tick / cross in the answer pop-ups ── */
+        .big-icon{width:108px;height:108px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;animation:bigpop .45s cubic-bezier(.2,1.5,.4,1) both;}
+        .big-icon svg{width:62px;height:62px;stroke:#fff;fill:none;stroke-width:3.6;stroke-linecap:round;stroke-linejoin:round;}
+        .big-icon.ok{background:linear-gradient(145deg,#3ddc6e,#16a34a);box-shadow:0 0 0 8px rgba(34,197,94,.18),0 14px 34px rgba(34,197,94,.45);}
+        .big-icon.bad{background:linear-gradient(145deg,#ff6b6b,#dc2626);box-shadow:0 0 0 8px rgba(239,68,68,.18),0 14px 34px rgba(239,68,68,.45);}
+        @keyframes bigpop{from{transform:scale(.3);opacity:0;}to{transform:scale(1);opacity:1;}}
+        .result-ttl,.penalty-ttl{font-size:30px !important;}
+        .flag-list li{font-size:17px !important;}
     </style>
     <link rel="stylesheet" href="/css/autostore-theme.css">
 </head>
@@ -287,13 +296,9 @@
 <!-- ═══ PENALTY (wrong answer) ═══ -->
 <div class="ov gone penalty-ov" id="penaltyOverlay">
     <div class="box penalty-box">
-        <div class="ico penalty-ico">
-            <svg viewBox="0 0 24 24" width="38" height="38" stroke="var(--red)" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-            </svg>
-        </div>
-        <div class="ttl penalty-ttl">Wrong Assessment</div>
-        <div class="msg">Look carefully. Here's what you missed:</div>
+        <div class="big-icon bad"><svg viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></div>
+        <div class="ttl penalty-ttl">Wrong!</div>
+        <div class="msg">Here's why:</div>
         <ul class="flag-list" id="fbList"></ul>
         <div class="p-timer" id="pTimer">10</div>
         <div class="p-timer-lbl">Seconds Remaining</div>
@@ -304,6 +309,7 @@
 <!-- ═══ CORRECT (explanation) ═══ -->
 <div class="ov gone result-ov" id="resultOverlay">
     <div class="box result-box">
+        <div class="big-icon ok"><svg viewBox="0 0 24 24"><polyline points="5 12.5 10 17.5 19 7"/></svg></div>
         <div class="result-ttl" id="resultTtl">Correct</div>
         <div class="result-sub" id="resultSub"></div>
         <ul class="flag-list" id="resultList"></ul>
@@ -425,6 +431,7 @@ const COMPANY_DOMAIN = 'autostore.co.uk';
    To add one: copy an entry. `explain` is what the player is shown. */
 const BANK = [
   { id:'barclays', genuine:true,
+    short:["Real Barclays address and link.", "Uses your name and real account details."],
     from:{name:'Barclays Bank', addr:'no-reply@barclays.co.uk', color:'#00aeef', initial:'B'},
     to:'marcus@autostore.co.uk', date:'Today, 10:14', subject:'Your latest statement is ready',
     preview:'Your monthly statement for March is now available to view securely in the Barclays app.',
@@ -440,6 +447,7 @@ const BANK = [
     explain:['The sender address is exactly no-reply@barclays.co.uk, Barclays\' real domain.','It uses your real name and the last four digits of your account.','The link goes to barclays.co.uk and it does not ask you to enter any details.'] },
 
   { id:'amazon', genuine:true,
+    short:["Sent from amazon.co.uk.", "Real order details, no payment asked."],
     from:{name:'Amazon', addr:'shipment-tracking@amazon.co.uk', color:'#ff9900', initial:'A', dark:true},
     to:'marcus.t@autostore.co.uk', date:'Yesterday', subject:'Your order has been dispatched!',
     preview:'Great news — your order has been collected by the courier and is now on its way to you.',
@@ -455,6 +463,7 @@ const BANK = [
     explain:['It comes from amazon.co.uk, a verified Amazon domain.','It includes a real order number and the exact item you ordered.','The tracking link points to amazon.co.uk, and nothing asks for payment or a password.'] },
 
   { id:'microsoft', genuine:true,
+    short:["Real microsoft.com address and link.", "Only a notice, nothing urgent."],
     from:{name:'Microsoft 365', addr:'microsoft365@email.microsoft.com', color:'#0078d4', initial:'M'},
     to:'marcus@autostore.co.uk', date:'Mon', subject:'Your Microsoft 365 subscription renews soon',
     preview:'Your Microsoft 365 account has had an unexpected log in attempt. No action is needed.',
@@ -470,6 +479,7 @@ const BANK = [
     explain:['The sender is on microsoft.com and the link goes to account.microsoft.com.','It includes details only Microsoft would hold: your plan, renewal and the card ending 3847.','No action is demanded and nothing is urgent. It is just a notice.'] },
 
   { id:'servicedesk', genuine:true,
+    short:["From your own company address.", "Asks you for nothing."],
     from:{name:'AutoStore IT Service Desk', addr:'servicedesk@autostore.co.uk', color:'#1e8fff', initial:'IT'},
     to:'All staff', date:'Yesterday', subject:'Planned maintenance: Saturday 22:00–23:30',
     preview:'The stock system and myMail will be unavailable on Saturday evening while we apply updates.',
@@ -484,6 +494,7 @@ const BANK = [
     explain:['It comes from your own company domain, autostore.co.uk, so there is no "External" warning.','It asks for nothing: no login, no password, no payment.','The link goes to the company intranet, and IT itself reminds you it never asks for passwords.'] },
 
   { id:'royalmail-ok', genuine:true,
+    short:["Real royalmail.com address and link.", "Nothing to pay."],
     from:{name:'Royal Mail', addr:'noreply@royalmail.com', color:'#d71920', initial:'R'},
     to:'marcus@autostore.co.uk', date:'Tue', subject:'Your parcel is out for delivery today',
     preview:'Your parcel is on its way and should arrive today. No payment or action is needed.',
@@ -498,6 +509,7 @@ const BANK = [
     explain:['The sender and the link are both on royalmail.com.','It only gives you tracking information, with no payment and no deadline.','Nothing asks you to log in or share personal details.'] },
 
   { id:'hmrc', genuine:false,
+    short:["Fake address: support-uk.com, not gov.uk.", "Urgent deadline and a suspicious link."],
     from:{name:'HMRC Tax Refunds', addr:'refunds@hmrc-gov.support-uk.com', color:'#1d4228', initial:'H'},
     to:'undisclosed-recipients', date:'Today, 8:03 AM', subject:'⚠️ TAX REFUND: £312.47 — ACTION REQUIRED',
     preview:'Our records show you are owed a tax refund. Your refund will EXPIRE in 24 hours.',
@@ -512,6 +524,7 @@ const BANK = [
     explain:['The sender domain is support-uk.com. HMRC only uses gov.uk.','"Dear Taxpayer" and "undisclosed recipients": it was sent to many people, not you.','A 24-hour deadline is pressure. The link goes to taxback-verify.net, not gov.uk, and uses http instead of https.','HMRC never emails to offer refunds or to ask for bank details.'] },
 
   { id:'paypal', genuine:false,
+    short:["Fake address: paypa1 with a number 1.", "Threats and \"Dear Valued Customer\"."],
     from:{name:'PayPaI Security Team', addr:'service@paypa1-secure-login.com', color:'#003087', initial:'P'},
     to:'customer@email.com', date:'Today, 6:47 AM', subject:'🔒 Your account has been LIMITED',
     preview:'URGENT: Your account access has been suspended. Failure to act within 12 hours…',
@@ -526,6 +539,7 @@ const BANK = [
     explain:['Look closely: the name says "PayPaI" with a capital I, and the domain is paypa1-secure-login.com with a number 1. PayPal only uses paypal.com.','"Dear Valued Customer" and a different recipient address: it does not know who you are.','Threats ("permanent closure in 12 hours") and a spelling error ("informations") are classic warning signs.'] },
 
   { id:'royalmail-fake', genuine:false,
+    short:["Fake address: royalmail-redelivery.co.", "Asks for a small payment by link."],
     from:{name:'Royal Mail Delivery', addr:'no-reply@royalmail-redelivery.co', color:'#d71920', initial:'R'},
     to:'marcus@autostore.co.uk', date:'Today, 9:32 AM', subject:'Parcel held: pay £1.99 to rearrange delivery',
     preview:'We tried to deliver your parcel but could not. A small fee is required to rearrange…',
@@ -541,6 +555,7 @@ const BANK = [
     explain:['The sender and link are on royalmail-redelivery.co. The real Royal Mail uses royalmail.com.','An unexpected request to pay a small fee by link is a common scam. Small amounts are used to steal your card details.','It does not use your name and adds a 48-hour deadline. To check a real parcel, go to royalmail.com yourself.'] },
 
   { id:'ceo', genuine:false,
+    short:["Gmail address, not the company's.", "Secret gift card request: a boss scam."],
     from:{name:'Gareth Whitlow', addr:'gareth.whitlow.autostore@gmail.com', color:'#6b4fbb', initial:'G'}, replyTo:'gareth.whitlow.autostore@gmail.com',
     to:'marcus@autostore.co.uk', date:'Today, 9:05 AM', subject:'Quick favour — are you at your desk?',
     preview:'Marcus, I\'m in meetings all day and can\'t take calls. I need you to pick something up…',
@@ -555,6 +570,7 @@ const BANK = [
     explain:['It uses a director\'s name, but the address is a free Gmail account, not autostore.co.uk. The "External" warning shows this.','A secret, urgent request to buy gift cards and send the codes is a classic boss-impersonation (CEO fraud) scam.','"Can\'t take calls" is there so you can\'t check it is really him. Always verify by phone or in person.'] },
 
   { id:'itphish', genuine:false,
+    short:["Wrong domain: autostore-helpdesk.com.", "Asks for your password."],
     from:{name:'AutoStore IT Support', addr:'it-support@autostore-helpdesk.com', color:'#1e8fff', initial:'IT'},
     to:'marcus@autostore.co.uk', date:'Today, 7:41 AM', subject:'Your password expires today',
     preview:'Your mailbox password expires at 17:00. Keep your password to avoid being locked out.',
@@ -569,6 +585,7 @@ const BANK = [
     explain:['Your real IT team is autostore.co.uk. This one is autostore-helpdesk.com, which is why it is marked "External".','It asks you to type your current password into a page behind a link. IT never needs that.','A same-day lockout deadline is there to make you rush.'] },
 
   { id:'invoice', genuine:false,
+    short:["Fake address: ends in invoice-portal.net.", "The \"PDF\" is really a .html file."],
     from:{name:'Clarks Motor Parts Accounts', addr:'accounts@clarks-motorparts.co.uk.invoice-portal.net', color:'#c2410c', initial:'C'},
     to:'marcus@autostore.co.uk', date:'Today, 8:50 AM', subject:'Invoice INV-44712 overdue — final reminder',
     preview:'Please find attached invoice INV-44712 which is now 14 days overdue. Open to view and pay.',
@@ -727,9 +744,9 @@ gbtn.addEventListener('click',()=>answer('genuine'));
 sbtn.addEventListener('click',()=>answer('phish'));
 
 function showResult(e,says){
-  $('resultTtl').textContent = e.genuine ? '✔ Correct' : '✔ Well spotted';
-  $('resultSub').textContent = e.genuine ? 'This email is genuine' : 'This email is phishing';
-  fillList($('resultList'), e.explain, e.genuine);
+  $('resultTtl').textContent = 'Correct!';
+  $('resultSub').textContent = e.genuine ? 'It is genuine' : 'It is phishing';
+  fillList($('resultList'), e.short || e.explain, e.genuine);
   showOv(resultOv);
 }
 $('resultBtn').addEventListener('click',()=>{
@@ -741,7 +758,7 @@ $('resultBtn').addEventListener('click',()=>{
 
 function showPenalty(e){
   penLeft=PENALTY_SECS; gbtn.disabled=true; sbtn.disabled=true;
-  fillList($('fbList'), e.explain, false);
+  fillList($('fbList'), e.short || e.explain, false);
   $('pTimer').textContent=penLeft;
   const old=$('tbarFill'), nw=old.cloneNode(true); old.parentNode.replaceChild(nw,old);
   showOv(penOv);

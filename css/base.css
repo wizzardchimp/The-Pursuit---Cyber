@@ -10,3 +10,6 @@ html:not(.terminal-ui):not(.native-ui) body,
 html:not(.terminal-ui):not(.native-ui) body *:not(i):not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(svg):not(svg *):not(.mono) {
     font-family: var(--font-ui) !important;
 }
+
+/* AutoStore interface uses Exo 2 throughout */
+html.autostore-ui { --font-ui: 'Exo 2', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
