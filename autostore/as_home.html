@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#0b0f17">
+    <link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/fonts/fonts.css">
     <link rel="stylesheet" href="/css/base.css">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -43,22 +44,24 @@
         /* ── section title ── */
         .sec{font-size:13px;font-weight:700;color:var(--dim);letter-spacing:.06em;text-transform:uppercase;margin:0 4px 10px;}
 
-        /* ── app cards ── */
-        .apps{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-        .app{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:16px 14px 14px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:14px;min-height:132px;position:relative;transition:transform .12s ease,background .12s;}
-        .app:active,.app.tapped{transform:scale(.97);background:var(--surface-2);}
-        .ico{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 6px 14px rgba(0,0,0,.35);}
-        .ico svg{width:26px;height:26px;stroke:#fff;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;}
-        .app h2{font-size:17px;font-weight:700;letter-spacing:-.01em;line-height:1.2;}
-        .app p{font-size:13px;color:var(--dim);margin-top:2px;}
-        .badge{position:absolute;top:12px;right:12px;min-width:24px;height:24px;border-radius:12px;background:#ff453a;color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 7px;box-shadow:0 2px 8px rgba(255,69,58,.45);}
-        .c-stock{background:linear-gradient(145deg,#ffb340,#ff7a1a);}
-        .c-fin{background:linear-gradient(145deg,#3ddc84,#12a150);}
-        .c-hr{background:linear-gradient(145deg,#b07cff,#7a4dff);}
-        .c-mail{background:linear-gradient(145deg,#4db2ff,#1a74f0);}
-        .c-drive{background:linear-gradient(145deg,#35d6e0,#0e9fb3);}
-        .c-notes{background:linear-gradient(145deg,#ffe066,#f2b705);}
-        .c-notes svg{stroke:#3a2a00;}
+        /* ── app tiles: big, colourful, iOS widget style ── */
+        .apps{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+        .app{border-radius:30px;padding:18px 18px 16px;text-decoration:none;color:#fff;display:flex;flex-direction:column;justify-content:space-between;aspect-ratio:1/1;min-height:158px;position:relative;overflow:hidden;box-shadow:0 14px 28px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.35);transition:transform .14s ease,filter .14s;}
+        .app::before{content:'';position:absolute;right:-30px;top:-30px;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.28),transparent 68%);pointer-events:none;}
+        .app:active,.app.tapped{transform:scale(.95);filter:brightness(.93);}
+        .ico{width:auto;height:auto;background:none;box-shadow:none;display:block;position:relative;}
+        .ico svg{width:68px;height:68px;stroke:#fff;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 4px 8px rgba(0,0,0,.25));}
+        .app h2{font-size:21px;font-weight:800;letter-spacing:-.02em;line-height:1.15;position:relative;}
+        .app p{font-size:14px;color:rgba(255,255,255,.82);margin-top:3px;font-weight:500;position:relative;}
+        .badge{position:absolute;top:14px;right:14px;min-width:30px;height:30px;border-radius:15px;background:#ff3b30;color:#fff;font-size:16px;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 9px;box-shadow:0 4px 12px rgba(255,59,48,.5),0 0 0 3px rgba(255,255,255,.9);z-index:2;}
+        .c-stock{background:linear-gradient(150deg,#ffb340,#ff6a00);}
+        .c-fin{background:linear-gradient(150deg,#4ade80,#0e9f4f);}
+        .c-hr{background:linear-gradient(150deg,#c084fc,#6d3df0);}
+        .c-mail{background:linear-gradient(150deg,#5cc0ff,#1560f0);}
+        .c-drive{background:linear-gradient(150deg,#3be3e8,#0a8ea6);}
+        .c-notes{background:linear-gradient(150deg,#ffe45c,#f5b400);color:#2b2000;}
+        .c-notes svg{stroke:#2b2000;filter:none;}
+        .c-notes p{color:rgba(43,32,0,.72);}
 
         .foot{display:flex;justify-content:space-between;align-items:center;margin:26px 4px 0;color:var(--dim);font-size:12.5px;}
         .logout{color:#ff6b5e;text-decoration:none;font-weight:600;font-size:15px;padding:10px 4px;display:inline-flex;gap:8px;align-items:center;}
@@ -67,14 +70,14 @@
         /* desktop: keep the same design, give it room */
         @media (min-width:900px){
             body{padding-top:36px;}
-            .wrap{max-width:980px;}
+            .wrap{max-width:860px;}
             .top{padding-bottom:28px;} .top img{height:36px;}
             .hello h1{font-size:40px;} .hello p{font-size:17px;}
             .today{grid-template-columns:repeat(3,1fr);padding:22px 12px;} .stat b{font-size:36px;} .stat span{font-size:14px;}
             .apps{grid-template-columns:repeat(3,1fr);gap:16px;}
-            .app{min-height:160px;padding:20px 18px;} .app:hover{background:var(--surface-2);transform:translateY(-2px);}
-            .ico{width:56px;height:56px;border-radius:16px;} .ico svg{width:30px;height:30px;}
-            .app h2{font-size:19px;}
+            .app{min-height:0;aspect-ratio:16/10;padding:20px 22px 18px;border-radius:30px;} .app:hover{transform:translateY(-4px);filter:brightness(1.06);}
+            .ico svg{width:64px;height:64px;}
+            .app h2{font-size:24px;} .app p{font-size:15px;}
         }
 
         /* ═══════════ NOTES APP ═══════════ */
@@ -155,29 +158,29 @@
 
     <div class="sec">Your apps</div>
     <div class="apps">
-        <a class="app" href="as_stock.html">
-            <div class="ico c-stock"><svg viewBox="0 0 24 24"><path d="M3 13l2-5a2 2 0 0 1 1.9-1.3h10.2A2 2 0 0 1 19 8l2 5v4a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-1H6v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><circle cx="7.5" cy="13.5" r="1"/><circle cx="16.5" cy="13.5" r="1"/></svg></div>
+        <a class="app c-stock" href="as_stock.html">
+            <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 13l2-5a2 2 0 0 1 1.9-1.3h10.2A2 2 0 0 1 19 8l2 5v4a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-1H6v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><circle cx="7.5" cy="13.5" r="1"/><circle cx="16.5" cy="13.5" r="1"/></svg></div>
             <div><h2>Stock Lists</h2><p>26 vehicles</p></div>
         </a>
-        <a class="app" href="as_finance.html">
-            <div class="ico c-fin"><svg viewBox="0 0 24 24"><rect x="4" y="2.5" width="16" height="19" rx="3"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="12" x2="8.01" y2="12"/><line x1="12" y1="12" x2="12.01" y2="12"/><line x1="16" y1="12" x2="16.01" y2="12"/><line x1="8" y1="16.5" x2="8.01" y2="16.5"/><line x1="12" y1="16.5" x2="12.01" y2="16.5"/><line x1="16" y1="16.5" x2="16.01" y2="16.5"/></svg></div>
+        <a class="app c-fin" href="as_finance.html">
+            <div class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="2.5" width="16" height="19" rx="3"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="12" x2="8.01" y2="12"/><line x1="12" y1="12" x2="12.01" y2="12"/><line x1="16" y1="12" x2="16.01" y2="12"/><line x1="8" y1="16.5" x2="8.01" y2="16.5"/><line x1="12" y1="16.5" x2="12.01" y2="16.5"/><line x1="16" y1="16.5" x2="16.01" y2="16.5"/></svg></div>
             <div><h2>Finance</h2><p>Calculator</p></div>
         </a>
-        <a class="app" href="as_mail.html">
+        <a class="app c-mail" href="as_mail.html">
             <span class="badge">6</span>
-            <div class="ico c-mail"><svg viewBox="0 0 24 24"><rect x="2" y="4.5" width="20" height="15" rx="3"/><path d="M3 7l9 6.5L21 7"/></svg></div>
+            <div class="ico"><svg viewBox="0 0 24 24"><rect x="2" y="4.5" width="20" height="15" rx="3"/><path d="M3 7l9 6.5L21 7"/></svg></div>
             <div><h2>myMail</h2><p>6 unread</p></div>
         </a>
-        <a class="app" href="as_hr.html">
-            <div class="ico c-hr"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg></div>
+        <a class="app c-hr" href="as_hr.html">
+            <div class="ico"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg></div>
             <div><h2>My HR</h2><p>Payslips and leave</p></div>
         </a>
-        <a class="app" href="as_drive.html">
-            <div class="ico c-drive"><svg viewBox="0 0 24 24"><path d="M18 10h-1.3A7 7 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></div>
+        <a class="app c-drive" href="as_drive.html">
+            <div class="ico"><svg viewBox="0 0 24 24"><path d="M18 10h-1.3A7 7 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></div>
             <div><h2>Personal Drive</h2><p>PIN protected</p></div>
         </a>
-        <a class="app" href="#" id="notepadTile">
-            <div class="ico c-notes"><svg viewBox="0 0 24 24"><path d="M14 2.5H7a2.5 2.5 0 0 0-2.5 2.5v14A2.5 2.5 0 0 0 7 21.5h10a2.5 2.5 0 0 0 2.5-2.5V8z"/><polyline points="14 2.5 14 8 19.5 8"/><line x1="8.5" y1="13" x2="15.5" y2="13"/><line x1="8.5" y1="17" x2="13" y2="17"/></svg></div>
+        <a class="app c-notes" href="#" id="notepadTile">
+            <div class="ico"><svg viewBox="0 0 24 24"><path d="M14 2.5H7a2.5 2.5 0 0 0-2.5 2.5v14A2.5 2.5 0 0 0 7 21.5h10a2.5 2.5 0 0 0 2.5-2.5V8z"/><polyline points="14 2.5 14 8 19.5 8"/><line x1="8.5" y1="13" x2="15.5" y2="13"/><line x1="8.5" y1="17" x2="13" y2="17"/></svg></div>
             <div><h2>Notes</h2><p>8 notes</p></div>
         </a>
     </div>

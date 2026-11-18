@@ -1,4 +1,12 @@
-/* Shared base for every Pursuit page.
-   touch-action: manipulation keeps taps instant (no 300ms double-tap-zoom delay)
-   while still letting players pinch-zoom, which the old viewport lock prevented. */
+/* Shared base for every Pursuit page. */
+:root { --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+
+/* touch-action: manipulation keeps taps instant (no 300ms double-tap-zoom delay)
+   while still letting players pinch-zoom. */
 html { touch-action: manipulation; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+/* One clean modern sans-serif everywhere. Icon fonts are excluded so icons keep working. */
+html:not(.terminal-ui) body,
+html:not(.terminal-ui) body *:not(i):not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(svg):not(svg *):not(.mono) {
+    font-family: var(--font-ui) !important;
+}
