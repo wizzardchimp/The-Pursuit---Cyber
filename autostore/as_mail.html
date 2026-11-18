@@ -233,16 +233,28 @@
         .abtn.ok{animation:okf .35s ease;}
         @keyframes okf{0%{transform:scale(1);}50%{transform:scale(1.07);background:rgba(68,255,68,.25);border-color:var(--green);}100%{transform:scale(1);}}
         @media(max-width:360px){.abtn{font-size:18px;padding:14px 8px;}.pin-val{font-size:42px;}}
+
+        /* ── full-screen mail (no logo header) ── */
+        body{padding:env(safe-area-inset-top) 0 160px !important;align-items:stretch !important;}
+        .viewer{padding-top:0 !important;}
+        .viewer-box{padding:0 !important;}
+        .counter{margin:12px 0 6px;font-size:14px;}
+        .float-timer{width:calc(100% - 24px) !important;max-width:none !important;margin:0 12px 10px !important;top:8px !important;}
+        .mailapp{max-width:none !important;width:100%;border-radius:0 !important;margin:0 !important;box-shadow:none !important;min-height:calc(100vh - 150px);}
+        #decision{position:fixed;left:0;right:0;bottom:74px;z-index:150;padding:10px 12px 8px;background:linear-gradient(to top,var(--bg) 78%,rgba(11,15,23,0));}
+        #decision .btn-grp{max-width:none !important;}
+        .btn-note{display:none;}
+        .back-wrap{background:none !important;padding:10px 16px max(14px,env(safe-area-inset-bottom)) !important;pointer-events:none;}
+        .back-btn{pointer-events:auto;background:rgba(20,26,38,.94) !important;border-radius:16px !important;box-shadow:0 10px 28px rgba(0,0,0,.45);color:#fff !important;font-weight:700 !important;}
+        body.in-msg #pHintBtn{bottom:150px !important;}
+        @media (min-width:700px){
+            .mailapp{max-width:520px !important;border-radius:18px !important;margin:14px auto !important;min-height:0;}
+            #decision{max-width:520px;left:50%;right:auto;width:100%;transform:translateX(-50%);}
+        }
     </style>
     <link rel="stylesheet" href="/css/autostore-theme.css">
 </head>
 <body>
-
-<div class="header">
-    <div class="logo-wrap"><img src="ashomelogo.png" alt="AutoStore Logo"></div>
-    <div class="hdr-div"></div>
-    <div class="hdr-sub">myMail — Email Portal</div>
-</div>
 
 <!-- ═══ WELCOME ═══ -->
 <div class="ov welcome-ov" id="welcomeOverlay">
@@ -603,6 +615,7 @@ function renderInbox(){
   ctrEl.textContent = 'Handled ' + (quiz.length-left) + ' of ' + quiz.length;
 }
 function showInbox(){
+  document.body.classList.remove('in-msg');
   $('msgView').style.display='none'; $('decision').style.display='none';
   $('inboxView').style.display='block'; floatTimer.style.display='none';
   renderInbox(); window.scrollTo({top:0});
@@ -650,6 +663,7 @@ function renderMessage(e){
 }
 
 function openEmail(e){
+  document.body.classList.add('in-msg');
   current = e; renderMessage(e);
   $('inboxView').style.display='none'; $('msgView').style.display='block';
   $('decision').style.display='block'; floatTimer.style.display='flex';
