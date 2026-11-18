@@ -2,10 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/fonts/fonts.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <title>The Pursuit - Cyber</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
 
         * {
             margin: 0;
@@ -418,6 +420,7 @@
         ];
 
         function startLoader() {
+            try { localStorage.removeItem('pursuit-hints-v1'); } catch (e) {}
             const fill    = document.getElementById('progressFill');
             const track   = document.getElementById('progressTrack');
             const pct     = document.getElementById('pctLabel');
@@ -467,13 +470,6 @@
             }, TOTAL_MS + 400);
         }
 
-        // Prevent double-tap zoom
-        let lastTouchEnd = 0;
-        document.addEventListener('touchend', (e) => {
-            const now = Date.now();
-            if (now - lastTouchEnd <= 300) e.preventDefault();
-            lastTouchEnd = now;
-        }, false);
     </script>
 </body>
 </html>

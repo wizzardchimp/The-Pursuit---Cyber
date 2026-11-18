@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/fonts/fonts.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <title>as_login</title>
     <style>
         * {
@@ -436,15 +439,7 @@
             errorMessage.classList.remove('show');
         });
 
-        // Prevent double-tap zoom on buttons
-        let lastTouchEnd = 0;
-        document.addEventListener('touchend', (e) => {
-            const now = Date.now();
-            if (now - lastTouchEnd <= 300) {
-                e.preventDefault();
-            }
-            lastTouchEnd = now;
-        }, false);
     </script>
+    <script src="/js/hints.js" defer></script>
 </body>
 </html>

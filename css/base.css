@@ -1,0 +1,4 @@
+/* Shared base for every Pursuit page.
+   touch-action: manipulation keeps taps instant (no 300ms double-tap-zoom delay)
+   while still letting players pinch-zoom, which the old viewport lock prevented. */
+html { touch-action: manipulation; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
