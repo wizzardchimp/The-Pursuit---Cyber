@@ -18,9 +18,9 @@
     ]},
     home: { title: 'AutoStore home', hints: [
       "Marcus keeps things in more than one place. Which tiles haven't you opened yet?",
-      "Personal Drive is locked with a PIN. His notepad says where the PIN was sent.",
+      "Personal Drive is locked with a PIN. His notes say where the PIN was sent.",
       "myMail reveals the PIN once you've correctly sorted the genuine emails from the phishing ones.",
-      "Read every card in My Notepad and tap the photos to enlarge them. The last photo shows a lock with three digits for the canvas bag."
+      "Open every note in the Notes app and tap the photos to enlarge them. The oldest note has a photo of a lock with three digits for the canvas bag."
     ]},
     mail: { title: 'myMail assessment', hints: [
       "Open Details and read the real sender address, not just the display name.",
@@ -69,7 +69,7 @@
     ]},
     sidearea: { title: 'AutoStore', hints: [
       "Not every section holds a puzzle. Which parts of the app haven't you opened yet?",
-      "Marcus leaves his most useful clues in myMail, My Notepad and the Personal Drive."
+      "Marcus leaves his most useful clues in myMail, Notes and the Personal Drive."
     ]}
   };
 
