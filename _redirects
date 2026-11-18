@@ -1,0 +1,4 @@
+# Safety net: never serve facilitator material, even if a copy is dropped in this folder by mistake.
+# The real guide lives in "Pursuit - Cyber (private docs)", outside the published folder.
+/Facilitator-Guide.md  /404.html  404!
+/Facilitator-Guide     /404.html  404!
