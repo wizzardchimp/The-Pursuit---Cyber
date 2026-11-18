@@ -387,7 +387,7 @@
             
             const username = usernameInput.value.toLowerCase().trim();
             const password = passwordInput.value.toLowerCase().trim();
-            const correctPassword = 'nandos.spicy.tango';
+            const correctPasswords = ['nandos.spicy.tango', 'nandosspicytango'];
             
             // Check if username contains "marcus" (case-insensitive)
             if (!username.includes('marcus')) {
@@ -404,7 +404,7 @@
                 setTimeout(() => {
                     container.style.animation = 'slideInUp 1.5s ease-out 0.5s forwards';
                 }, 500);
-            } else if (password !== correctPassword) {
+            } else if (!correctPasswords.includes(password)) {
                 // Username is correct, but password is wrong
                 errorMessage.textContent = 'Incorrect password. Please try again.';
                 errorMessage.classList.add('show');
