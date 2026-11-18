@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="native-ui">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -251,6 +251,19 @@
             .mailapp{max-width:520px !important;border-radius:18px !important;margin:14px auto !important;min-height:0;}
             #decision{max-width:520px;left:50%;right:auto;width:100%;transform:translateX(-50%);}
         }
+
+        /* ── original assessment type: Rajdhani for UI chrome, Exo 2 for body; emails keep the phone's native font ── */
+        html.native-ui{--font:'Rajdhani','Exo 2',-apple-system,sans-serif;}
+        html.native-ui body{font-family:'Exo 2',-apple-system,sans-serif !important;}
+        html.native-ui .ttl,html.native-ui .start-btn,html.native-ui .restart-btn,html.native-ui .cont-btn,html.native-ui .abtn,html.native-ui .counter,html.native-ui .ft-label,html.native-ui .pin-lbl,html.native-ui .p-timer-lbl,html.native-ui .result-ttl,html.native-ui .result-sub,html.native-ui .welcome-sub,html.native-ui .back-btn,html.native-ui .fb-ttl,html.native-ui .ft-secs,html.native-ui .p-timer,html.native-ui .pin-val{font-family:'Rajdhani',-apple-system,sans-serif !important;letter-spacing:.08em !important;}
+        html.native-ui .msg,html.native-ui .timeout-msg,html.native-ui .pin-note,html.native-ui .flag-list li,html.native-ui .btn-note{font-family:'Exo 2',-apple-system,sans-serif !important;}
+
+        /* ── "Handled 0 of 6": flat bar fixed to the very top; timer fixed just under it ── */
+        .counter{position:fixed !important;top:0;left:0;right:0;z-index:210;margin:0 !important;padding:calc(env(safe-area-inset-top) + 10px) 12px 9px;background:var(--bg);border-bottom:1px solid rgba(255,255,255,.07);font-size:15px !important;}
+        .float-timer{position:fixed !important;top:calc(env(safe-area-inset-top) + 42px) !important;left:12px;right:12px;width:auto !important;margin:0 !important;z-index:205;}
+        body{padding-top:calc(env(safe-area-inset-top) + 42px) !important;}
+        body.in-msg{padding-top:calc(env(safe-area-inset-top) + 104px) !important;}
+        @media (min-width:700px){ .float-timer{left:50%;right:auto;width:496px !important;transform:translateX(-50%);} }
     </style>
     <link rel="stylesheet" href="/css/autostore-theme.css">
 </head>

@@ -6,7 +6,7 @@
 html { touch-action: manipulation; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
 /* One clean modern sans-serif everywhere. Icon fonts are excluded so icons keep working. */
-html:not(.terminal-ui) body,
-html:not(.terminal-ui) body *:not(i):not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(svg):not(svg *):not(.mono) {
+html:not(.terminal-ui):not(.native-ui) body,
+html:not(.terminal-ui):not(.native-ui) body *:not(i):not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(svg):not(svg *):not(.mono) {
     font-family: var(--font-ui) !important;
 }
