@@ -107,23 +107,23 @@
 
   /* ── UI ───────────────────────────────────────────────────── */
   var css = ''
-    + '#pHintBtn{position:fixed;right:14px;bottom:84px;z-index:800;width:50px;height:50px;border-radius:50%;border:2px solid #1e8fff;background:#0c1829;color:#7fd0ff;font:700 24px/1 -apple-system,"Exo 2",sans-serif;box-shadow:0 4px 18px rgba(0,0,0,.45);cursor:pointer;-webkit-tap-highlight-color:transparent;padding:0}'
+    + '#pHintBtn{position:fixed;right:14px;bottom:84px;z-index:800;width:50px;height:50px;border-radius:50%;border:2px solid #1e8fff;background:#0c1829;color:#7fd0ff;font:700 26.5px/1 -apple-system,"Exo 2",sans-serif;box-shadow:0 4px 18px rgba(0,0,0,.45);cursor:pointer;-webkit-tap-highlight-color:transparent;padding:0}'
     + '#pHintBtn:active{transform:scale(.94)}'
-    + '#pHintBtn .b{position:absolute;top:-6px;right:-6px;min-width:20px;height:20px;border-radius:10px;background:#ffb020;color:#1a1200;font:700 12px/20px -apple-system,sans-serif;padding:0 5px;text-align:center}'
+    + '#pHintBtn .b{position:absolute;top:-6px;right:-6px;min-width:20px;height:20px;border-radius:10px;background:#ffb020;color:#1a1200;font:700 13px/20px -apple-system,sans-serif;padding:0 5px;text-align:center}'
     + '#pHintBg{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:5200;display:none}'
     + '#pHintBg.show{display:block}'
     + '#pHint{position:fixed;left:0;right:0;bottom:0;z-index:5201;max-width:480px;margin:0 auto;background:#0c1829;color:#e8f4ff;border:1px solid rgba(30,143,255,.35);border-bottom:none;border-radius:18px 18px 0 0;padding:16px 18px 20px;max-height:80vh;overflow:auto;transform:translateY(105%);transition:transform .22s ease;font-family:-apple-system,"Exo 2",Helvetica,Arial,sans-serif;box-shadow:0 -10px 40px rgba(0,0,0,.6)}'
     + '#pHint.show{transform:translateY(0)}'
     + '#pHint .g{width:38px;height:5px;border-radius:3px;background:rgba(255,255,255,.25);margin:0 auto 12px}'
-    + '#pHint h2{font-size:18px;margin:0 0 2px;letter-spacing:.02em}'
-    + '#pHint .sub{font-size:13px;color:rgba(232,244,255,.6);margin-bottom:12px}'
-    + '#pHint .used{font-size:12.5px;color:#ffb020;margin-bottom:12px}'
-    + '#pHint .card{background:rgba(30,143,255,.1);border-left:3px solid #1e8fff;border-radius:8px;padding:11px 13px;margin-bottom:9px;font-size:15px;line-height:1.5}'
-    + '#pHint .card small{display:block;color:rgba(232,244,255,.5);font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}'
-    + '#pHint button.act{width:100%;padding:13px;border-radius:10px;border:1px solid #1e8fff;background:#1e8fff;color:#04101f;font:700 15px -apple-system,"Exo 2",sans-serif;cursor:pointer;margin-top:4px}'
+    + '#pHint h2{font-size:20px;margin:0 0 2px;letter-spacing:.02em}'
+    + '#pHint .sub{font-size:14.5px;color:rgba(232,244,255,.6);margin-bottom:12px}'
+    + '#pHint .used{font-size:14px;color:#ffb020;margin-bottom:12px}'
+    + '#pHint .card{background:rgba(30,143,255,.1);border-left:3px solid #1e8fff;border-radius:8px;padding:11px 13px;margin-bottom:9px;font-size:16.5px;line-height:1.5}'
+    + '#pHint .card small{display:block;color:rgba(232,244,255,.5);font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}'
+    + '#pHint button.act{width:100%;padding:13px;border-radius:10px;border:1px solid #1e8fff;background:#1e8fff;color:#04101f;font:700 16.5px -apple-system,"Exo 2",sans-serif;cursor:pointer;margin-top:4px}'
     + '#pHint button.act.confirm{background:#ffb020;border-color:#ffb020}'
     + '#pHint button.act:disabled{opacity:.45;cursor:default}'
-    + '#pHint button.close{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:transparent;color:#e8f4ff;font:600 15px -apple-system,"Exo 2",sans-serif;cursor:pointer;margin-top:8px}';
+    + '#pHint button.close{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:transparent;color:#e8f4ff;font:600 16.5px -apple-system,"Exo 2",sans-serif;cursor:pointer;margin-top:8px}';
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
   var btn = document.createElement('button');

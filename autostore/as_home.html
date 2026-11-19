@@ -133,6 +133,13 @@
         .n-photo img{width:100%;display:block;max-height:68vh;object-fit:cover;}
         .n-photo::after{content:'Tap to enlarge';position:absolute;right:9px;bottom:9px;background:rgba(0,0,0,.62);color:#fff;font-size:12px;padding:4px 10px;border-radius:12px;font-family:inherit;}
 
+        /* floating back button (replaces the yellow "Home" link at the top) */
+        .n-bar-slim{min-height:max(18px,env(safe-area-inset-top));padding-bottom:0;}
+        .n-float{position:absolute;left:16px;right:16px;bottom:max(16px,env(safe-area-inset-bottom));z-index:20;display:flex;align-items:center;justify-content:center;gap:10px;padding:15px 20px;border:1px solid rgba(255,255,255,.16);border-radius:16px;background:rgba(28,28,30,.96);color:#fff;font:700 16px/1 'Exo 2',-apple-system,sans-serif;cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.55);-webkit-tap-highlight-color:transparent;}
+        .n-float:active{transform:scale(.97);}
+        .n-float svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round;}
+        .n-scroll{padding-bottom:100px !important;}
+
         /* ── photo lightbox ── */
         .lightbox{position:fixed;inset:0;z-index:4000;background:rgba(0,0,0,.96);display:none;flex-direction:column;}
         .lightbox.show{display:flex;}
@@ -202,7 +209,7 @@
 <div class="notes" id="notes" aria-hidden="true">
   <div class="notes-panel">
     <div class="nview" id="nList">
-        <div class="n-bar"><button class="n-link" id="nClose" type="button"><svg viewBox="0 0 11 19"><polyline points="9.5 1.5 2 9.5 9.5 17.5"/></svg>Home</button><span></span></div>
+        <div class="n-bar n-bar-slim"></div>
         <div class="n-scroll">
             <div class="n-title">Notes</div>
             <label class="n-search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg><input id="nSearch" type="search" placeholder="Search" autocomplete="off" enterkeyhint="search"></label>
@@ -214,6 +221,7 @@
         <div class="n-bar"><button class="n-link" id="nBack" type="button"><svg viewBox="0 0 11 19"><polyline points="9.5 1.5 2 9.5 9.5 17.5"/></svg>Notes</button><span></span></div>
         <div class="n-scroll"><div class="n-date" id="nDate"></div><div class="n-body" id="nBody"></div></div>
     </div>
+    <button class="n-float" id="nClose" type="button"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/></svg>Back to AutoStore Home</button>
   </div>
 </div>
 
@@ -331,6 +339,6 @@
       a.addEventListener('touchend',function(){setTimeout(function(){a.classList.remove('tapped');},200);},{passive:true});
     });
 </script>
-    <script src="/js/hints.js?v=20261118c" defer></script>
+    <script src="/js/hints.js?v=20261119b" defer></script>
 </body>
 </html>
