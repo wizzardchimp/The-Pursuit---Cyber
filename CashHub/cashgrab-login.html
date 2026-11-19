@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preload" href="/fonts/exo-2-300.woff2?v=20261118c" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/fonts/fonts.css?v=20261118c">
-    <link rel="stylesheet" href="/css/base.css?v=20261118c">
+    <link rel="stylesheet" href="/css/base.css?v=20261119a">
     <link rel="icon" type="image/svg+xml" href="/CashHub/favicon.svg?v=20261118c">
     <link rel="stylesheet" href="/CashHub/css/all.min.css?v=20261118c">
     <title>CashGrab Hub - Login</title>
@@ -326,7 +326,7 @@
                     id="username"
                     class="form-input"
                     placeholder="Username"
-                    autocomplete="username"
+                    autocomplete="off" data-noautofill
                     required
                 >
             </div>
@@ -338,7 +338,7 @@
                         id="password"
                         class="form-input"
                         placeholder="Password"
-                        autocomplete="current-password"
+                        autocomplete="off" data-nosave
                         required
                     >
                     <button class="toggle-password" type="button" onclick="togglePassword()" aria-label="Toggle password visibility">
@@ -371,12 +371,10 @@
             const eyeIcon = document.getElementById("eyeIcon");
             const eyeSlashIcon = document.getElementById("eyeSlashIcon");
 
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
+            if (window.pwToggle(passwordInput)) {
                 eyeIcon.style.display = "none";
                 eyeSlashIcon.style.display = "block";
             } else {
-                passwordInput.type = "password";
                 eyeIcon.style.display = "block";
                 eyeSlashIcon.style.display = "none";
             }
@@ -441,5 +439,6 @@
     </script>
     <script src="/js/hints.js?v=20261118c" defer></script>
     <script src="/js/backbar.js?v=20261118f" defer></script>
+    <script src="/js/nosave.js?v=20261119a" defer></script>
 </body>
 </html>

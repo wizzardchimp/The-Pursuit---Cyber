@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preload" href="/fonts/exo-2-300.woff2?v=20261118c" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/fonts/fonts.css?v=20261118c">
-    <link rel="stylesheet" href="/css/base.css?v=20261118c">
+    <link rel="stylesheet" href="/css/base.css?v=20261119a">
     <link rel="icon" type="image/svg+xml" href="/CashHub/favicon.svg?v=20261118c">
     <title>CashGrab Hub - Account Recovery</title>
     <style>
@@ -327,25 +327,25 @@
                 <div class="error-text">All fields are required</div>
             </div>
 
-            <form id="recoveryForm">
+            <form id="recoveryForm" autocomplete="off">
                 <div class="form-group">
                     <label class="form-label">1. Registered Phone Number</label>
-                    <input type="tel" class="form-input" id="phone" placeholder="e.g. 07700 900123">
+                    <input type="tel" class="form-input" data-noautofill id="phone" placeholder="e.g. 07700 900123">
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">2. Last 4 Digits of Crypto E-Wallet</label>
-                    <input type="text" class="form-input" id="wallet" placeholder="e.g. 4A7F" maxlength="4">
+                    <input type="text" class="form-input" data-noautofill id="wallet" placeholder="e.g. 4A7F" maxlength="4">
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">3. Registered Email Address</label>
-                    <input type="email" class="form-input" id="email" placeholder="e.g. user@example.com">
+                    <input type="email" class="form-input" data-noautofill id="email" placeholder="e.g. user@example.com">
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">4. Secret Phrase</label>
-                    <input type="text" class="form-input" id="phrase" placeholder="Enter your secret phrase">
+                    <input type="text" class="form-input" data-noautofill id="phrase" placeholder="Enter your secret phrase">
                 </div>
 
                 <button type="submit" class="submit-btn">Submit Recovery Request</button>
@@ -400,5 +400,6 @@
     </script>
     <script src="/js/hints.js?v=20261118c" defer></script>
     <script src="/js/backbar.js?v=20261118f" defer></script>
+    <script src="/js/nosave.js?v=20261119a" defer></script>
 </body>
 </html>
